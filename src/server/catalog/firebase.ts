@@ -93,6 +93,47 @@ const NO_DISTINTIVO = new Set<string>([
   "arte", "medico", "ponce", "benzo", "kimiceg", "nivea", "caloxp",
 ]);
 
+/**
+ * Accesorios/insumos genéricos que aparecen en cientos de productos (jeringas,
+ * agujas, hisopos, agua, guantes...). En la fase difusa NO deben calificar un
+ * producto si la consulta trae además un token de FÁRMACO: "vicryl aguja
+ * cortante curva" debe matchear por "vicryl", no por "aguja" (que desborda la
+ * lista con jeringas/agua oxigenada). Solo califican cuando la consulta es
+ * EXCLUSIVAMENTE de accesorios (p. ej. "jeringa 10ml").
+ */
+const ACCESORIO = new Set<string>([
+  "aguja", "agujas", "jeringa", "jeringas", "hisopo", "hisopos", "algodon",
+  "algodón", "gasa", "gasas", "venda", "vendas", "esparadrapo", "guante",
+  "guantes", "mascarilla", "mascarillas", "tapaboca", "barbijo", "agua",
+  "suerofisiologico", "suero", "sonda", "sondas", "cateter", "cateteres",
+  "catéter", "catéteres", "torniquete", "bajalengua", "bajalenguas",
+  "cotonete", "cotonetes", "torunda", "torundas", "aposito", "apósitos",
+  "apositos", "cura", "curitas", "banda", "bandas", "tela", "telas",
+  "tijera", "tijeras", "pinza", "pinzas", "fórceps", "forceps", "bisturi",
+  "bisturí", "lanceta", "lancetas", "termometro", "termómetro",
+  "tensiómetro", "tensiometro", "glucometro", "glucómetro", "oximetro",
+  "oxímetro", "nebulizador", "inhalador", "cánula", "canula", "cánulas",
+  "canulas", "manguera", "mangueras", "bolsa", "bolsas", "frasco", "frascos",
+  "envase", "envases", "recipiente", "recipientes", "vaso", "vasos", "copa",
+  "copas", "pajilla", "pajillas", "popote", "popotes", "servilleta",
+  "servilletas", "toalla", "toallas", "papel", "papeles", "toallita",
+  "toallitas", "pañal", "pañales", "panal", "panales", "esponja", "esponjas",
+  "cepillo", "cepillos", "peine", "peines", "cortauñas", "lima", "limas",
+  "espejo", "espejos", "lupa", "lupas", "gotero", "goteros", "cuentagotas",
+  "pomada", "pomadas", "unguento", "ungüento", "crema", "cremas", "gel",
+  "geles", "locion", "loción", "lociones", "shampoo", "shampú", "jabon",
+  "jabón", "jabones", "desinfectante", "desinfectantes", "alcohol",
+  "alcoholes", "peroxido", "peróxido", "yodo", "povidona", "clorhexidina",
+  "merthiolate", "mercurocromo", "aguaoxigenada", "oxigenada", "oxigenado",
+  "aguas", "heleal", "elplacer", "guardian", "alna", "toomey", "grossmed",
+  "sumedical", "alphapharm", "alpha", "pharm", "im", "iv", "sc", "id", "ev",
+  "subcutanea", "subcutánea", "intramuscular", "intravenosa", "intradermica",
+  "intradérmica", "cortante", "cortantes", "curva", "curvas", "recta", "rectas",
+  "redonda", "redondas", "triangular", "triangulares", "sh", "ct", "ct1",
+  "ct-1", "sh26", "sh26mm", "26mm", "36mm", "35mm", "37mm", "40mm", "45mm",
+  "50mm", "mm", "cm", "m", "metros", "centimetros", "centímetros",
+]);
+
 /** Sinónimos de presentación: "crema" == "ungüento" (misma forma). */
 const SINONIMOS_PRESENTACION: Record<string, string> = {
   crema: "crema", unguento: "crema", ungüento: "crema", pomada: "crema",
@@ -202,6 +243,14 @@ export async function searchProducts(
   const esNumero = (t: string) => /\d/.test(t);
   const distintivos = termTokens.filter((t) => !NO_DISTINTIVO.has(t) && !esNumero(t));
   const noDistintivos = termTokens.filter((t) => NO_DISTINTIVO.has(t) && !esNumero(t));
+  // Tokens de ACCESORIO (jeringa, aguja, hisopo, agua...). En la fase difusa
+  // NO califican un producto si la consulta trae además un token de FÁRMACO:
+  // "vicryl aguja cortante curva" debe matchear por "vicryl", no por "aguja"
+  // (que desborda la lista con jeringas/agua oxigenada). Solo califican cuando
+  // la consulta es EXCLUSIVAMENTE de accesorios (p. ej. "jeringa 10ml").
+  const accesorios = termTokens.filter((t) => ACCESORIO.has(t) && !esNumero(t));
+  // Tokens de fármaco = distintivos que NO son accesorios.
+  const farmacos = distintivos.filter((t) => !ACCESORIO.has(t));
 
   for (const doc of snap.docs) {
     const p = mapProduct(doc.id, doc.data() as Record<string, unknown>);
@@ -216,10 +265,14 @@ export async function searchProducts(
     }
 
     // Fase 2: difuso. Requiere que al menos un token DISTINTIVO matchee.
-    if (distintivos.length === 0) continue;
+    // Si la consulta trae un token de FÁRMACO (no-accesorio), SOLO los
+    // fármacos califican; los accesorios suman score pero no califican.
+    // Si la consulta es solo de accesorios, estos califican.
+    const calificadores = farmacos.length > 0 ? farmacos : accesorios;
+    if (calificadores.length === 0) continue;
     let score = 0;
     let matchedDistintivo = false;
-    for (const qt of distintivos) {
+    for (const qt of calificadores) {
       // maxD=1: distancia de 1 letra (typo). maxD=2 para tokens largos
       // producía falsos positivos ("moderan"≈"madera", "bumetin"≈"brucetin").
       const maxD = 1;
@@ -233,6 +286,11 @@ export async function searchProducts(
       }
     }
     if (!matchedDistintivo) continue;
+    // Los accesorios (cuando hay fármaco) y no-distintivos suman score para
+    // ordenar, no califican.
+    for (const qt of accesorios) {
+      if (hay.includes(qt)) score += 0.5;
+    }
     // Los no-distintivos (marca/sal) suman score para ordenar, no califican.
     for (const qt of noDistintivos) {
       if (hay.includes(qt)) score += 0.5;
