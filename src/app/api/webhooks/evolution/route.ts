@@ -159,9 +159,17 @@ function extractText(message: unknown): string | null {
 function isEcho(data: Record<string, unknown> | undefined): boolean {
   const fromMe = path(data, "key", "fromMe");
   if (fromMe === true) return true;
+  // evolution-go serializa *events.Message de whatsmeow: el flag de "mensaje
+  // saliente del dueño" vive en Info.IsFromMe (no en key.fromMe). Además el
+  // destinatario real del echo (el cliente) es Info.Chat, distinto del
+  // remitente detectado (el LID del dueño).
+  const infoFromMe = path(data, "Info", "IsFromMe");
+  if (infoFromMe === true) return true;
   // Fallback: el remitente detectado es el LID del dueño y el payload trae un
-  // destinatario distinto en key.remoteJid.
-  const remoteJid = path(data, "key", "remoteJid");
+  // destinatario distinto en key.remoteJid (formato classic) o Info.Chat
+  // (formato evolution-go).
+  const remoteJid =
+    path(data, "key", "remoteJid") ?? path(data, "Info", "Chat");
   const sender = resolveRealSender(data);
   if (typeof remoteJid === "string" && remoteJid && sender) {
     const remoteNum = (remoteJid.split("@")[0] ?? "").trim();
@@ -172,7 +180,10 @@ function isEcho(data: Record<string, unknown> | undefined): boolean {
 
 /** Extrae el DESTINATARIO real de un echo (el cliente al que el dueño respondió). */
 function extractEchoRecipient(data: Record<string, unknown> | undefined): string | null {
-  const remoteJid = path(data, "key", "remoteJid");
+  // evolution-go: Info.Chat es el destinatario real (el cliente al que el
+  // dueño respondió), mientras que el remitente detectado es el LID del dueño.
+  const remoteJid =
+    path(data, "key", "remoteJid") ?? path(data, "Info", "Chat");
   if (typeof remoteJid === "string" && remoteJid) {
     const num = (remoteJid.split("@")[0] ?? "").trim();
     if (num) return num;
