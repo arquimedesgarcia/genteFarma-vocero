@@ -497,7 +497,32 @@ export async function POST(req: Request) {
         // Farmacia: delegar TAMBIÉN los textos a nea-agent (es el único
         // cerebro con el contexto de la receta). El pipeline interno del CRM
         // no sabe resolver "quiero 1 caja de 1,2,3..." contra last_options.
-        if (esFarmacia && !botPaused) {
+        // OJO: DEBE respetar el toggle "IA" de la Bandeja (aiEnabled) y los
+        // handoffs. Antes delegaba sin verificar la conversación: si un humano
+        // apagaba la IA o la IA pausaba (p.ej. medicamento_no_disponible),
+        // nea-agent seguía respondiendo solo. Con este guard, si la IA está
+        // off en la conversación o hay handoff activo, NO se delega: el mensaje
+        // cae al pipeline/bandeja para el humano.
+        const { contact: convContact } = await getOrCreateContactByIdentity(
+          orgId,
+          identity
+        );
+        const farmConv = await db
+          .select({
+            aiEnabled: schema.conversation.aiEnabled,
+            handoffAt: schema.conversation.handoffAt,
+          })
+          .from(schema.conversation)
+          .where(
+            and(
+              eq(schema.conversation.organizationId, orgId),
+              eq(schema.conversation.contactId, convContact.id)
+            )
+          )
+          .limit(1);
+        const convAiOff =
+          farmConv[0] && (farmConv[0].aiEnabled === false || farmConv[0].handoffAt !== null);
+        if (esFarmacia && !botPaused && !convAiOff) {
           await delegateToNea({
             organizationId: orgId,
             identity,
@@ -517,7 +542,7 @@ export async function POST(req: Request) {
           type: "text",
           text,
           timestamp: extractTimestamp(data),
-          skipAgent: botPaused,
+          skipAgent: botPaused || convAiOff,
         });
         if (botPaused) {
           console.log(
