@@ -631,12 +631,20 @@ async function ingestManualEcho(input: {
   timestamp: string;
 }): Promise<void> {
   const db = getDb();
-  const phone = normalizeMx(input.recipient);
+  const rawRecipient = input.recipient;
+  // El destinatario del echo puede ser un NÚMERO real (584146141685) o un LID
+  // de cuenta Business (150289596285032, sin número expuesto). Si es un LID,
+  // NO tratarlo como teléfono: buscar el contacto existente por wa_user_id
+  // (que ya quedó ligado al número real cuando el cliente escribió). Tratar el
+  // LID como phone crea un contacto duplicado fantasma (phone=LID) que aparece
+  // como entrada separada en la Bandeja.
+  const esLid = /^\d{10,20}$/.test(rawRecipient) && !/^5\d{10}$/.test(rawRecipient) && rawRecipient.length > 12;
+  const phone = esLid ? null : normalizeMx(rawRecipient);
 
   const { contact } = await getOrCreateContactByIdentity(input.organizationId, {
-    identity: phone,
+    identity: esLid ? `bsuid:${rawRecipient}` : phone!,
     phone,
-    waUserId: null,
+    waUserId: esLid ? rawRecipient : null,
     profileName: null,
   });
   const conversation = await getOrCreateConversation(input.organizationId, contact.id);
