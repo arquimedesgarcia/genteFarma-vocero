@@ -279,7 +279,37 @@ function extractAudio(
   return { base64, mime };
 }
 
-/** Extrae el ID del mensaje. */
+/** ¿El evento `message` trae contenido REAL (texto o algún tipo de adjunto)? */
+function hasRealContent(
+  message: unknown,
+  text: string | null
+): boolean {
+  if (typeof text === "string" && text.trim()) return true;
+  if (!message || typeof message !== "object") return false;
+  const m = message as Record<string, unknown>;
+  // Tipos de mensaje de WhatsApp que SÍ representan contenido del cliente.
+  for (const key of [
+    "imageMessage",
+    "audioMessage",
+    "videoMessage",
+    "documentMessage",
+    "stickerMessage",
+    "contactMessage",
+    "locationMessage",
+    "liveLocationMessage",
+    "documentWithCaptionMessage",
+    "listMessage",
+    "buttonsMessage",
+    "templateMessage",
+    "pollCreationMessage",
+  ]) {
+    if (m[key]) return true;
+  }
+  return false;
+}
+
+/**
+ * Extrae el ID del mensaje. */
 function extractMessageId(data: Record<string, unknown> | undefined): string | null {
   const id =
     path(data, "Info", "ID") ??
@@ -342,6 +372,21 @@ export async function POST(req: Request) {
         }
         const messageId = extractMessageId(data) ?? `evo-${Date.now()}`;
         const text = extractText(path(data, "Message") ?? path(data, "message"));
+
+        // Guard anti-ruido: los eventos `message` SIN contenido real (presencia
+        // de tipeo/lectura, reacciones, heartbeats de Evolution GO o mensajes
+        // vacíos) llegan como event:"message" y antes se ingerían como texto
+        // vacío (in/operator con text="") y disparaban una respuesta AI
+        // inventada por cada uno. Se descartan para no contaminar la bandeja ni
+        // generar respuestas falsas. Un mensaje legítimo siempre tiene texto o
+        // un adjunto (imagen/audio/video/doc/sticker...).
+        const rawMsgEarly = path(data, "Message") ?? path(data, "message");
+        if (!hasRealContent(rawMsgEarly, text)) {
+          console.log(
+            `[evolution-webhook] evento message sin contenido real descartado (sender=${sender}, msg=${messageId})`
+          );
+          return;
+        }
 
         // Buscar la organización por instanceToken.
         const orgId = await resolveOrgFromInstanceToken(payload.instanceToken);
