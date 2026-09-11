@@ -855,6 +855,25 @@ async function delegateToNea(input: {
   // Llamar a nea-agent /chat con la imagen base64 (modo producción: send=true,
   // nea-agent resuelve la conversación por identidad y envía la respuesta vía
   // /api/bot/messages → el CRM la manda por Evolution).
+  //
+  // MULTI-TENANT: se le pasa el conversationId de la ORGANIZACIÓN correcta
+  // (la que llegó por instanceToken en el webhook). Sin él, nea-agent resuelve
+  // el contexto por waIdentity, que es AMBIGUO cuando el mismo número existe en
+  // varias farmacias (p.ej. Roberto 584128009482 en Gentefarma y FarmaTocToc):
+  // agarraría la primera org y la respuesta saldría por la instancia equivocada.
+  // nea-agent ya usa conversationId como hint preferente (conv_id_hint en run_turn).
+  let conversationId: string | null = null;
+  try {
+    const { contact: c } = await getOrCreateContactByIdentity(
+      input.organizationId,
+      input.identity
+    );
+    const conv = await getOrCreateConversation(input.organizationId, c.id);
+    conversationId = conv.id;
+  } catch (err) {
+    console.warn(`[evolution-webhook] no se pudo resolver conversationId para nea-agent: ${err}`);
+  }
+
   try {
     const res = await fetch(`${baseUrl}/chat`, {
       method: "POST",
@@ -863,6 +882,7 @@ async function delegateToNea(input: {
         text: input.text,
         waIdentity: input.identity.identity,
         waMessageId: input.waMessageId,
+        conversationId,
         imageBase64,
         imageMime: input.imageMime,
         audioBase64,
