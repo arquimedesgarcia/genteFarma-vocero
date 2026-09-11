@@ -293,6 +293,10 @@ function EvolutionConnectForm({ onSaved }: { onSaved: () => void }) {
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
+  const [qrImage, setQrImage] = useState<string | null>(null);
+  const [qrError, setQrError] = useState<string | null>(null);
+  const [qrLoading, setQrLoading] = useState(false);
+  const [showQr, setShowQr] = useState(false);
 
   useEffect(() => {
     void fetch("/api/settings/whatsapp/evolution")
@@ -306,6 +310,30 @@ function EvolutionConnectForm({ onSaved }: { onSaved: () => void }) {
       })
       .catch(() => setLoaded(true));
   }, []);
+
+  async function loadQr() {
+    setQrLoading(true);
+    setQrError(null);
+    setQrImage(null);
+    setShowQr(true);
+    const res = await fetch("/api/settings/whatsapp/evolution/qr", { method: "POST" }).catch(
+      () => null
+    );
+    setQrLoading(false);
+    if (!res) {
+      setQrError("Sin conexión con el servidor");
+      return;
+    }
+    const data = (await res.json().catch(() => null)) as {
+      qrcode?: string;
+      error?: { message?: string };
+    } | null;
+    if (res.ok && data?.qrcode) {
+      setQrImage(data.qrcode);
+    } else {
+      setQrError(data?.error?.message ?? "No se pudo generar el código QR");
+    }
+  }
 
   async function save() {
     setSaving(true);
@@ -351,6 +379,44 @@ function EvolutionConnectForm({ onSaved }: { onSaved: () => void }) {
               </p>
             </div>
             <Badge variant="success">Conectado</Badge>
+          </div>
+        )}
+
+        {existing && (
+          <div className="space-y-2 rounded-md border border-warning-soft bg-warning-tint/40 p-4">
+            <p className="text-sm">
+              <strong className="text-foreground">¿Perdiste la sesión de WhatsApp?</strong>{" "}
+              Regenera el código QR y escanéalo con el WhatsApp del negocio para
+              volver a vincular el número, sin entrar a Evolution GO.
+            </p>
+            <Button
+              variant="outline"
+              disabled={qrLoading}
+              onClick={() => void loadQr()}
+            >
+              {qrLoading ? "Generando QR…" : "Mostrar código QR de reconexión"}
+            </Button>
+            {showQr &&
+              (qrImage ? (
+                <div className="rounded-md border bg-white p-3">
+                  <img
+                    src={qrImage}
+                    alt="Código QR de WhatsApp para reconectar"
+                    className="mx-auto h-56 w-56 object-contain"
+                  />
+                  <p className="mt-2 text-center text-xs text-muted-foreground">
+                    Escanea con WhatsApp (Ajustes → Dispositivos vinculados). El
+                    QR expira en ~20 segundos; si quedó en blanco, regenéralo.
+                  </p>
+                </div>
+              ) : (
+                qrError && (
+                  <p className="text-sm text-destructive">
+                    {qrError}. Puedes generar el QR en Evolution GO si este
+                    persistiera.
+                  </p>
+                )
+              ))}
           </div>
         )}
 
