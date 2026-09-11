@@ -53,6 +53,29 @@ function path(obj: Record<string, unknown> | null | undefined, ...keys: string[]
   return cur;
 }
 
+/**
+ * ¿Es un mensaje de ESTADO / BROADCAST (la franja de "Mi estado" de WhatsApp)?
+ * Cuando el DUEÑO publica un estado, Evolution manda `Info.Chat = "status@broadcast"`.
+ * NUNCA debe generar un contacto ni ingestar a la bandeja: no es un cliente ni
+ * una conversación real. Detectar el sufijo `@broadcast` en cualquiera de los
+ * campos JID relevantes del payload.
+ */
+function isBroadcast(data: Record<string, unknown> | undefined): boolean {
+  const candidates = [
+    path(data, "Info", "Chat"),
+    path(data, "Info", "Sender"),
+    path(data, "Info", "SenderAlt"),
+    path(data, "key", "remoteJid"),
+    path(data, "sender"),
+  ];
+  for (const c of candidates) {
+    if (typeof c === "string" && c.toLowerCase().endsWith("@broadcast")) {
+      return true;
+    }
+  }
+  return false;
+}
+
 /** Clasifica un JID: group / lid / user / unknown. */
 function jidType(a: string): "group" | "lid" | "user" | "unknown" {
   if (!a) return "unknown";
@@ -325,6 +348,19 @@ export async function POST(req: Request) {
         if (!orgId) {
           console.warn(
             `[evolution-webhook] no se pudo resolver la organización (instanceToken=${payload.instanceToken})`
+          );
+          return;
+        }
+
+        // ESTADO / BROADCAST ("Mi estado" de WhatsApp): el dueño publicó un
+        // estado (Info.Chat = "status@broadcast"). NO es un cliente ni una
+        // conversación: descartarlo ANTES de crear contacto/conversación. Sin
+        // esto se creaba un contacto fantasma "status" (phone/wa_identity =
+        // "status") en la bandeja acumulando todos los estados del negocio.
+        if (isBroadcast(data)) {
+          const bj = String(path(data, "Info", "Chat") ?? path(data, "key", "remoteJid") ?? "?");
+          console.log(
+            `[evolution-webhook] estado/broadcast del dueño descartado (${bj}) msg=${messageId}`
           );
           return;
         }
