@@ -208,7 +208,13 @@ export async function sendText(input: {
       );
     }
     const env = getEnv();
-    if (!env.EVOLUTION_INSTANCE_TOKEN) {
+    // MULTI-TENANT: el envío por Evolution debe usar el token de la instancia
+    // de ESTA organización, NO un token global (EVOLUTION_INSTANCE_TOKEN).
+    // Usar el token equivocado hace que la respuesta salga desde el número de
+    // OTRA farmacia (p.ej. Gentefarma en vez de FarmaTocToc).
+    const creds = await getEvolutionCredentialsByOrg(input.organizationId);
+    const instanceToken = creds?.instanceToken ?? env.EVOLUTION_INSTANCE_TOKEN;
+    if (!instanceToken) {
       throw new SendError(
         "not_connected",
         "No hay token de instancia de Evolution configurado"
@@ -222,7 +228,7 @@ export async function sendText(input: {
         text: input.text,
         credentials: {
           provider: "evolution",
-          instanceToken: env.EVOLUTION_INSTANCE_TOKEN,
+          instanceToken,
         },
       });
       waMessageId = result.waMessageId;
@@ -330,7 +336,10 @@ export async function sendMediaMessage(input: {
       );
     }
     const env = getEnv();
-    if (!env.EVOLUTION_INSTANCE_TOKEN) {
+    // MULTI-TENANT: token de la instancia de ESTA org (no token global).
+    const creds = await getEvolutionCredentialsByOrg(input.organizationId);
+    const instanceToken = creds?.instanceToken ?? env.EVOLUTION_INSTANCE_TOKEN;
+    if (!instanceToken) {
       throw new SendError(
         "not_connected",
         "No hay token de instancia de Evolution configurado"
@@ -370,7 +379,7 @@ export async function sendMediaMessage(input: {
           caption: input.caption,
           credentials: {
             provider: "evolution",
-            instanceToken: env.EVOLUTION_INSTANCE_TOKEN,
+            instanceToken,
           },
         })
       ).waMessageId;
