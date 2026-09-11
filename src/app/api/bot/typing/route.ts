@@ -2,7 +2,7 @@ import { and, desc, eq, isNotNull } from "drizzle-orm";
 import { z } from "zod";
 import { getDb, schema } from "@/lib/db";
 import { apiError, parseBody } from "@/lib/api";
-import { requireBotKey, resolveInstanceOrg } from "@/server/bot/auth";
+import { requireBotKey, resolveOrgFromConversation } from "@/server/bot/auth";
 import { getEnv } from "@/lib/env";
 import { evolutionRecipient } from "@/server/whatsapp/evolution";
 import { getEvolutionCredentialsByOrg } from "@/server/whatsapp/evolution-credentials";
@@ -37,12 +37,14 @@ export async function POST(req: Request) {
   const denied = requireBotKey(req);
   if (denied) return denied;
 
-  const organizationId = await resolveInstanceOrg();
-  if (!organizationId) {
-    return apiError(409, "no_org", "La instancia aún no tiene organización");
-  }
   const body = await parseBody(req, bodySchema);
   if (!body.ok) return body.response;
+
+  // MULTI-TENANT: la org se resuelve del conversationId de la conversación.
+  const organizationId = await resolveOrgFromConversation(body.data.conversationId);
+  if (!organizationId) {
+    return apiError(409, "no_org", "La conversación no tiene organización");
+  }
 
   const db = getDb();
   const convs = await db

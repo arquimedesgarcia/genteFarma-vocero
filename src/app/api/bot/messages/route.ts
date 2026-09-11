@@ -2,7 +2,7 @@ import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 import { getDb, schema } from "@/lib/db";
 import { apiError, parseBody } from "@/lib/api";
-import { requireBotKey, resolveInstanceOrg } from "@/server/bot/auth";
+import { requireBotKey, resolveOrgFromConversation } from "@/server/bot/auth";
 import { SendError, sendText } from "@/server/inbox/send";
 
 export const dynamic = "force-dynamic";
@@ -25,13 +25,17 @@ export async function POST(req: Request) {
   const denied = requireBotKey(req);
   if (denied) return denied;
 
-  const organizationId = await resolveInstanceOrg();
-  if (!organizationId) {
-    return apiError(409, "no_org", "La instancia aún no tiene organización");
-  }
-
   const body = await parseBody(req, bodySchema);
   if (!body.ok) return body.response;
+
+  // MULTI-TENANT: la org se resuelve del CONVERSATION ID de la conversación a la
+  // que se responde (cada instancia Evolution = una org). No de una org global:
+  // con varias farmacias conectadas, usar una org única haría que la respuesta
+  // saliera por la instancia equivocada (p.ej. Gentefarma en vez de FarmaTocToc).
+  const organizationId = await resolveOrgFromConversation(body.data.conversationId);
+  if (!organizationId) {
+    return apiError(409, "no_org", "La conversación no tiene organización");
+  }
 
   // Gate de handoff: el bot JAMÁS habla sobre una conversación pausada. Se
   // relee aquí porque entre que el bot pidió el contexto y armó su respuesta

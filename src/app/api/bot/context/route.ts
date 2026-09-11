@@ -1,7 +1,7 @@
 import { and, eq, or } from "drizzle-orm";
 import { getDb, schema } from "@/lib/db";
 import { apiError } from "@/lib/api";
-import { requireBotKey, resolveInstanceOrg } from "@/server/bot/auth";
+import { requireBotKey, resolveOrgFromConversation, resolveOrgFromWaIdentity } from "@/server/bot/auth";
 import { serializeFicha } from "@/server/bot/ficha";
 import { isWindowOpen, windowRemainingMs } from "@/server/inbox/window";
 
@@ -19,16 +19,25 @@ export async function GET(req: Request) {
   const denied = requireBotKey(req);
   if (denied) return denied;
 
-  const organizationId = await resolveInstanceOrg();
-  if (!organizationId) {
-    return apiError(409, "no_org", "La instancia aún no tiene organización");
-  }
-
   const url = new URL(req.url);
   const waIdentity = url.searchParams.get("waIdentity");
   const conversationId = url.searchParams.get("conversationId");
   if (!waIdentity && !conversationId) {
     return apiError(422, "invalid", "Falta waIdentity o conversationId");
+  }
+
+  // MULTI-TENANT: la org se resuelve del TENANT real (conversationId o la
+  // identidad del contacto), NO de una org global. Con varias farmacias
+  // conectadas, una org única agarraría siempre el primer tenant y el agente
+  // consultaría el catálogo equivocado (providerId) y respondería por el token
+  // de instancia equivocado.
+  const organizationId = conversationId
+    ? await resolveOrgFromConversation(conversationId)
+    : waIdentity
+      ? await resolveOrgFromWaIdentity(waIdentity)
+      : null;
+  if (!organizationId) {
+    return apiError(409, "no_org", "No se pudo resolver la organización del tenant");
   }
 
   const db = getDb();

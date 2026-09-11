@@ -1,5 +1,5 @@
 import { timingSafeEqual } from "node:crypto";
-import { eq, sql } from "drizzle-orm";
+import { eq, or, sql } from "drizzle-orm";
 import { getDb, schema } from "@/lib/db";
 import { apiError } from "@/lib/api";
 import { checkRateLimit } from "@/lib/rate-limit";
@@ -67,6 +67,50 @@ export async function resolveInstanceOrg(): Promise<string | null> {
     .limit(1);
   cachedOrgId = fallback[0]?.id ?? null;
   return cachedOrgId;
+}
+
+/**
+ * MULTI-TENANT: resuelve la organización del TENANT real de una conversación por
+ * su `conversationId`. En un CRM multi-tenant hay VARIAS instancias Evolution
+ * conectadas (cada farmacia = una org). `resolveInstanceOrg()` devuelve una org
+ * global cacheada (la primera conectada) que NO sirve cuando nea-agent responde
+ * a un mensaje de OTRA farmacia: el token de envío saldría por la instancia
+ * equivocada (p.ej. Gentefarma 584128840350 respondiendo por FarmaTocToc).
+ * La org correcta es la de la conversación a la que se responde.
+ */
+export async function resolveOrgFromConversation(
+  conversationId: string
+): Promise<string | null> {
+  if (!conversationId) return null;
+  const db = getDb();
+  const rows = await db
+    .select({ organizationId: schema.conversation.organizationId })
+    .from(schema.conversation)
+    .where(eq(schema.conversation.id, conversationId))
+    .limit(1);
+  return rows[0]?.organizationId ?? null;
+}
+
+/**
+ * MULTI-TENANT: resuelve la organización del tenant de un contacto por `waIdentity`
+ * (LID/bsuid o número). Igual que resolveOrgFromConversation pero por identidad.
+ */
+export async function resolveOrgFromWaIdentity(
+  waIdentity: string
+): Promise<string | null> {
+  if (!waIdentity) return null;
+  const db = getDb();
+  const rows = await db
+    .select({ organizationId: schema.contact.organizationId })
+    .from(schema.contact)
+    .where(
+      or(
+        eq(schema.contact.waIdentity, waIdentity),
+        eq(schema.contact.phone, waIdentity)
+      )
+    )
+    .limit(1);
+  return rows[0]?.organizationId ?? null;
 }
 
 /** Solo para tests. */
