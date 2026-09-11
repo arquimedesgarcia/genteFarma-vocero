@@ -1,5 +1,5 @@
 import { apiError } from "@/lib/api";
-import { requireBotKey, resolveInstanceOrg } from "@/server/bot/auth";
+import { requireBotKey, resolveOrgFromConversation, resolveOrgFromWaIdentity, resolveInstanceOrg } from "@/server/bot/auth";
 import { getCredentialsByOrg } from "@/server/whatsapp/credentials";
 import { downloadGraphMedia, MediaFetchError } from "@/server/whatsapp/media";
 
@@ -22,9 +22,15 @@ export async function GET(
   const denied = requireBotKey(req);
   if (denied) return denied;
 
-  const organizationId = await resolveInstanceOrg();
+  const url = new URL(req.url);
+  const conversationId = url.searchParams.get("conversationId");
+  const waIdentity = url.searchParams.get("waIdentity");
+
+  const organizationId = (conversationId && await resolveOrgFromConversation(conversationId))
+    ?? (waIdentity && await resolveOrgFromWaIdentity(waIdentity))
+    ?? await resolveInstanceOrg();
   if (!organizationId) {
-    return apiError(409, "no_org", "La instancia aún no tiene organización");
+    return apiError(409, "no_org", "No se pudo resolver la organización del tenant");
   }
   const creds = await getCredentialsByOrg(organizationId);
   if (!creds) {

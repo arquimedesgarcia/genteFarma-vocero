@@ -1,7 +1,7 @@
 import { asc, eq } from "drizzle-orm";
 import { getDb, schema } from "@/lib/db";
 import { apiError } from "@/lib/api";
-import { requireBotKey, resolveInstanceOrg } from "@/server/bot/auth";
+import { requireBotKey, resolveOrgFromConversation, resolveOrgFromWaIdentity, resolveInstanceOrg } from "@/server/bot/auth";
 import { serializeBotProfile } from "@/server/bot/profile";
 
 export const dynamic = "force-dynamic";
@@ -11,14 +11,24 @@ export const dynamic = "force-dynamic";
  * GET /api/bot/profile → {profile, kb, resources}. Sin caché: cada consulta
  * refleja lo que el dueño dejó en la UI al momento (el TTL vive del lado del
  * bot, que es quien sabe cada cuánto le conviene releer).
+ *
+ * MULTI-TENANT: acepta `?conversationId=` u `?waIdentity=` para resolver la org
+ * del tenant (igual que /api/bot/context). Si no se pasa ninguno, cae al
+ * fallback legacy (resolveInstanceOrg) — compatible con bots que no envían tenant.
  */
 export async function GET(req: Request) {
   const denied = requireBotKey(req);
   if (denied) return denied;
 
-  const organizationId = await resolveInstanceOrg();
+  const url = new URL(req.url);
+  const conversationId = url.searchParams.get("conversationId");
+  const waIdentity = url.searchParams.get("waIdentity");
+
+  const organizationId = (conversationId && await resolveOrgFromConversation(conversationId))
+    ?? (waIdentity && await resolveOrgFromWaIdentity(waIdentity))
+    ?? await resolveInstanceOrg();
   if (!organizationId) {
-    return apiError(409, "no_org", "La instancia aún no tiene organización");
+    return apiError(409, "no_org", "No se pudo resolver la organización del tenant");
   }
 
   const db = getDb();
