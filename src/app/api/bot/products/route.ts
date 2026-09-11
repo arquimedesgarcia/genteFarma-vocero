@@ -52,6 +52,11 @@ export async function GET(req: Request) {
 
   return Response.json({
     provider: provider?.name ?? null,
+    // Formas de pago (markdown libre por tenant) y datos útiles: el agente los
+    // usa para citar formas de pago, horarios y dirección de la farmacia.
+    paymenType: provider?.paymenType ?? null,
+    hours: provider?.hours ?? null,
+    address: provider?.address ?? null,
     products,
   });
 }

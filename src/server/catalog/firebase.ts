@@ -324,8 +324,15 @@ export async function searchProducts(
   return out.slice(0, limit);
 }
 
-/** Nombre del proveedor (para el encabezado de la respuesta). */
-export async function getProviderInfo(providerId: string): Promise<{ name: string } | null> {
+/** Datos del proveedor (para el encabezado de la respuesta y formas de pago). */
+export async function getProviderInfo(
+  providerId: string
+): Promise<{
+  name: string;
+  hours: string | null;
+  address: string | null;
+  paymenType: string | null;
+} | null> {
   const store = firestore();
   if (!store) return null;
   try {
@@ -333,7 +340,14 @@ export async function getProviderInfo(providerId: string): Promise<{ name: strin
     const doc = await store.collection(env.FIREBASE_COLLECTION_PROVIDERS).doc(providerId).get();
     if (!doc.exists) return null;
     const d = doc.data() as Record<string, unknown>;
-    return { name: String(d.name ?? d.Name ?? d.nombre ?? "") };
+    return {
+      name: String(d.name ?? d.Name ?? d.nombre ?? ""),
+      hours: d.hours ? String(d.hours) : null,
+      address: d.address ? String(d.address) : null,
+      // Formas de pago (markdown libre que el dueño edita en el SAAS):
+      // campo `paymenType` en providers/{id} de Firestore.
+      paymenType: d.paymenType ? String(d.paymenType) : null,
+    };
   } catch {
     return null;
   }
