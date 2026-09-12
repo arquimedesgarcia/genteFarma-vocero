@@ -29,8 +29,8 @@ function withCors(res: Response, req?: Request): Response {
   return res;
 }
 
-export async function OPTIONS() {
-  return withCors(new Response(null, { status: 204 }));
+export async function OPTIONS(req: Request) {
+  return withCors(new Response(null, { status: 204 }), req);
 }
 
 /** Comparación en tiempo constante para firmas hex. */
