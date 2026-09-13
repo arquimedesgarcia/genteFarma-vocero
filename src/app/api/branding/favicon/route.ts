@@ -1,5 +1,6 @@
 import { readMediaFile } from "@/server/whatsapp/media";
 import { getBrandingContext } from "@/server/branding";
+import { getSessionOrNull } from "@/lib/auth/session";
 import { DEFAULT_BRANDING } from "@/lib/branding";
 import { FAVICON_ASSET, generatedFaviconSvg } from "@/lib/favicon";
 
@@ -35,10 +36,15 @@ function cabeceras(mime: string, cacheable: boolean): HeadersInit {
 export async function GET(req: Request) {
   const cacheable = new URL(req.url).searchParams.has("v");
 
-  const ctx = await getBrandingContext().catch(() => null);
+  // Multitenant: resuelve la org por la sesión del navegador. Cada tenant /
+  // providerId tiene su propia marca (nombre, acento y logo), así que el icono
+  // de la pestaña cambia según quién entró por SSO. Sin sesión (login) cae al
+  // branding genérico de la instancia.
+  const org = (await getSessionOrNull())?.organizationId ?? null;
+  const ctx = await getBrandingContext(org).catch(() => null);
   const branding = ctx?.branding ?? DEFAULT_BRANDING;
 
-  if (ctx?.organizationId && branding.favicon) {
+  if (org && ctx?.organizationId && branding.favicon) {
     try {
       const buf = await readMediaFile(ctx.organizationId, FAVICON_ASSET);
       return new Response(new Uint8Array(buf), {

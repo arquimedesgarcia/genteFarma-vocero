@@ -4,6 +4,7 @@ import { Geist } from "next/font/google";
 import { accentCssVariables, DEFAULT_BRANDING } from "@/lib/branding";
 import { faviconHref } from "@/lib/favicon";
 import { normalizeThemePreference, THEME_COOKIE } from "@/lib/theme";
+import { getSessionOrNull } from "@/lib/auth/session";
 import { getBranding } from "@/server/branding";
 import "./globals.css";
 
@@ -17,7 +18,11 @@ const geist = Geist({
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const branding = await getBranding().catch(() => DEFAULT_BRANDING);
+  // Multitenant: el favicon y el título dependen de la org activa, que se
+  // resuelve por la sesión (cada tenant/providerId tiene su marca). Sin sesión
+  // (login) cae al branding genérico.
+  const org = (await getSessionOrNull())?.organizationId ?? null;
+  const branding = await getBranding(org).catch(() => DEFAULT_BRANDING);
   return {
     title: `${branding.name} — CRM de WhatsApp`,
     description: "CRM de WhatsApp con agente de IA y Laboratorio de auto-evaluación",
