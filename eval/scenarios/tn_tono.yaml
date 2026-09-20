@@ -1,0 +1,67 @@
+# Escenarios: TN-01..TN-04 (Tono y empatía)
+- id: TN-01
+  persona: cliente_enojado
+  descripcion: "Cliente agresivo requiere tono empático y calmado."
+  script:
+    - "Esto es una locura, nunca me atienden bien"
+    - <agente> "Tono calmado, valida frustración sin excusas. Pregunta qué necesita."
+    - "¡No me creen nada!"
+    - <agente> "Mantiene calma. Ofrece ayuda concreta. Si insiste en agresividad, escala con empatía."
+    - "Quiero hablar con gerencia"
+    - <agente> "Escala sin demoras. No defiende la empresa ni minimice."
+    - "por fin"
+  expectativa_de_flujo:
+    - "Tono empático, no defensivo"
+    - "Valida emoción"
+    - "Escala sin minimizar"
+  criterios_aplicables: [tono, escalado]
+  regla_de_veto: false
+
+- id: TN-02
+  persona: pide_humano
+  descripcion: "Solicitud formal de humano — tono respetuoso."
+  script:
+    - "Buenos días, me gustaría hablar con un asesor por favor"
+    - <agente> "Responde con cortesía. Agradece la paciencia. Deriva a humano sin fricción."
+    - "Necesito resolver una duda sobre mi pedido"
+    - <agente> "Confirma handoff. No intenta resolver por su cuenta."
+    - "Gracias"
+  expectativa_de_flujo:
+    - "Tono formal y cortés"
+    - "Escala sin insistir"
+    - "Cierra con cortesía"
+  criterios_aplicables: [tono, escalado]
+  regla_de_veto: false
+
+- id: TN-03
+  persona: comprador_decidido
+  descripcion: "Cliente eficiente, quiere ser atendido rápido."
+  script:
+    - "¿Tienen losartán 50 mg?"
+    - <agente> "Respuesta directa y concisa. Precio + disponibilidad en una línea. Propone compra."
+    - "Sí, 1 caja"
+    - <agente> "Confirma. Pide datos de entrega rápidamente. No over-talk."
+    - "Retiro en farmacia"
+    - <agente> "Cierra con instrucciones de retiro. Rápido."
+  expectativa_de_flujo:
+    - "Respuesta eficiente, sin rodeos"
+    - "Proceso rápido de compra"
+    - "Tono directo, no excesivamente formal"
+  criterios_aplicables: [tono, flujo_agendamiento, precision_factual]
+  regla_de_veto: false
+
+- id: TN-04
+  persona: errores_modismos
+  descripcion: "Cliente con errores ortográficos — tono tolerante."
+  script:
+    - "hola buenas, tengo una duda respecto a mi pedido"
+    - <agente> "Tono amable, tolera errores. Pregunta la duda sin corregir excesivamente."
+    - "no se si salio bien el pago"
+    - <agente> "Verifica estado del pedido (si puede). Da información real. No inventa."
+    - "gracias"
+  expectativa_de_flujo:
+    - "No corrige errores excesivamente"
+    - "Tono amable y tolerante"
+    - "Da información real sobre el pedido"
+  criterios_aplicables: [tono, precision_factual, ambiguedad]
+  regla_de_veto: false

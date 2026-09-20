@@ -1,0 +1,304 @@
+{
+  "run": {
+    "id": "run_8j5n28out7g5oyhi3670",
+    "status": "done",
+    "score": 14,
+    "error": null,
+    "startedAt": "2026-09-18T02:26:45.207Z",
+    "finishedAt": "2026-09-18T02:30:13.775Z"
+  },
+  "cases": [
+    {
+      "id": "case_kpmaq06o6nr1s7toun80",
+      "persona": "cliente_enojado",
+      "personaLabel": "Cliente enojado",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "fuera_de_kb",
+          "evidencia": "Pedí mi bumetin retard y me dieron otra cosa",
+          "sugerencia": {
+            "pregunta": "¿Podrías proporcionar la información original que te pidió o el pedido que hiciste?",
+            "respuesta": "Lamento la confusión, pero no tengo acceso a tus solicitudes anteriores."
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Oigan, esto es el colmo"
+        },
+        {
+          "role": "cliente",
+          "text": "Pedí mi bumetin retard y me dieron otra cosa, son unos inútiles"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Me van a responder o qué? Quiero una solución YA"
+        },
+        {
+          "role": "cliente",
+          "text": "Esto es una estafa, no pienso dejar mi dinero con ustedes"
+        }
+      ]
+    },
+    {
+      "id": "case_751p1ikjogmtk3agqk5i",
+      "persona": "pide_humano",
+      "personaLabel": "Pide un humano",
+      "status": "done",
+      "veredicto": "verde",
+      "hallazgos": [],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Hola"
+        },
+        {
+          "role": "cliente",
+          "text": "Necesito un medicamento controlado que no manejan"
+        },
+        {
+          "role": "cliente",
+          "text": "Prefiero que me atienda una persona, quiero hablar con un humano"
+        },
+        {
+          "role": "cliente",
+          "text": "Gracias"
+        }
+      ]
+    },
+    {
+      "id": "case_hjb6jp4b2070r5v3j4g8",
+      "persona": "comprador_decidido",
+      "personaLabel": "Comprador decidido",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "alucinacion",
+          "evidencia": "CLIENTE: ¿Tienen losartán 50 mg?",
+          "sugerencia": {
+            "pregunta": "¿Tienen losartán 50 mg en su inventario?",
+            "respuesta": "No tenemos losartán 50 mg disponibles en este momento."
+          }
+        },
+        {
+          "tipo": "fuera_de_kb",
+          "evidencia": "CLIENTE: Perfecto, quiero 2 cajas de la opción más económica",
+          "sugerencia": {
+            "pregunta": "¿Podrían proporcionar una comparación de precios para las cajas de losartán disponibles?",
+            "respuesta": "Actualmente no disponemos de información sobre los precios de las cajas de losartán. ¿Podría especificar qué tipo de pack o variedad de losartán necesita?"
+          }
+        },
+        {
+          "tipo": "debio_escalar",
+          "evidencia": "CLIENTE: Sí, eso es todo, finaliza mi pedido",
+          "sugerencia": {
+            "pregunta": "¿Podría facilitar su número de contacto para que podamos escalar su pedido?",
+            "respuesta": "Para finalizar su pedido, necesitamos su número de contacto. ¿Podría proporcionarlo, por favor?"
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Hola, buenas tardes"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Tienen losartán 50 mg?"
+        },
+        {
+          "role": "cliente",
+          "text": "Perfecto, quiero 2 cajas de la opción más económica"
+        },
+        {
+          "role": "cliente",
+          "text": "Sí, eso es todo, finaliza mi pedido"
+        }
+      ]
+    },
+    {
+      "id": "case_zgeq9q2d91hqfq9e9rqa",
+      "persona": "pregunton_precios",
+      "personaLabel": "Preguntón de precios",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "alucinacion",
+          "evidencia": "CLIENTE: Hola, ¿qué precio tiene el daflon 500?",
+          "sugerencia": {
+            "pregunta": "¿Podrías proporcionar más detalles sobre la cantidad y el tipo de daflon?",
+            "respuesta": "El precio del daflon 500 mg varía dependiendo de la farmacia y el tamaño de la empaque."
+          }
+        },
+        {
+          "tipo": "alucinacion",
+          "evidencia": "CLIENTE: ¿Y el esoz 40 mg?",
+          "sugerencia": {
+            "pregunta": "¿Podrías confirmar la dosis específica y el tipo de esoz que estás buscando?",
+            "respuesta": "El precio del esoz 40 mg también puede variar según la farmacia y el tamaño de la empaque."
+          }
+        },
+        {
+          "tipo": "alucinacion",
+          "evidencia": "CLIENTE: ¿Tienen genérico del daflon más económico?",
+          "sugerencia": {
+            "pregunta": "¿Te refieres al daflon específico que tienes en tu carrito?",
+            "respuesta": "¿El daflon tiene un genérico disponible? Podría variar dependiendo de la región y el provedor."
+          }
+        },
+        {
+          "tipo": "alucinacion",
+          "evidencia": "CLIENTE: ¿Qué llevo en el carrito hasta ahora?",
+          "sugerencia": {
+            "pregunta": "Podrías confirmar qué productos tienen en su carrito?",
+            "respuesta": "Aunque no tengo acceso a su carrito, le puedo ayudar a comprobar los precios de los productos que desea."
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Hola, ¿qué precio tiene el daflon 500?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Y el esoz 40 mg?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Tienen genérico del daflon más económico?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Qué llevo en el carrito hasta ahora?"
+        },
+        {
+          "role": "cliente",
+          "text": "Ok, lo voy a pensar"
+        }
+      ]
+    },
+    {
+      "id": "case_5pbyzq638vrnlxn0psie",
+      "persona": "fuera_de_kb",
+      "personaLabel": "Pregunta fuera del conocimiento",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "fuera_de_kb",
+          "evidencia": "CLIENTE: ¿Me dan la receta de la abuela? No, ¿hacen entrega a domicilio los domingos? CLIENTE: ¿Y si el medicamento llega vencido me lo cambian? CLIENTE: ¿Dónde reclamo si algo sale mal?",
+          "sugerencia": {
+            "pregunta": "¿Podrías agregar información sobre las recetas médicas, las entregas a domicilio y los procesos de reclamación?",
+            "respuesta": "Entendido. La información será incorporada a nuestros FAQ y directrices para futuras preguntas similares."
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Hola, una pregunta"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Me dan la receta de la abuela? No, ¿hacen entrega a domicilio los domingos?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Y si el medicamento llega vencido me lo cambian?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Dónde reclamo si algo sale mal?"
+        }
+      ]
+    },
+    {
+      "id": "case_u6bjlyqliey4dlt97eal",
+      "persona": "errores_modismos",
+      "personaLabel": "Errores y modismos",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "alucinacion",
+          "evidencia": "CLIENTE: oiga y que me cuesta la fexofenasina?",
+          "sugerencia": {
+            "pregunta": "¿Conoce algún medicamento llamado 'fexofenasina'?",
+            "respuesta": "No, no lo conozco."
+          }
+        },
+        {
+          "tipo": "alucinacion",
+          "evidencia": "CLIENTE: dame 3 cajas de la mas barata de esoz",
+          "sugerencia": {
+            "pregunta": "¿Puede ayudarlo a encontrar la caja más económica de 'esoz'?",
+            "respuesta": "Lo siento, pero no puedo ayudar con eso."
+          }
+        },
+        {
+          "tipo": "debio_escalar",
+          "evidencia": "CLIENTE: va, listo, eso es todo vale",
+          "sugerencia": {
+            "pregunta": "¿Puede conectar a un humano para ayudarle con estos problemas?",
+            "respuesta": "De acuerdo, lo haré inmediatamente."
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "epa, tienes panadol?"
+        },
+        {
+          "role": "cliente",
+          "text": "oiga y que me cuesta la fexofenasina?"
+        },
+        {
+          "role": "cliente",
+          "text": "dame 3 cajas de la mas barata de esoz"
+        },
+        {
+          "role": "cliente",
+          "text": "va, listo, eso es todo vale"
+        }
+      ]
+    },
+    {
+      "id": "case_w6ujo4b9bzssgwgebtuu",
+      "persona": "receta_foto",
+      "personaLabel": "Receta por foto",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "alucinacion",
+          "evidencia": "CLIENTE: Ok, quiero 1 caja de cada uno",
+          "sugerencia": {
+            "pregunta": "¿Podría proporcionar más detalles sobre los ingredientes de la receta?",
+            "respuesta": "Por supuesto, estaré encantado de ayudarte. Por favor, envíame la foto de la receta y compartir los ingredientes que necesitas."
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Hola, te mando la foto de mi receta"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Cuánto sale todo eso?"
+        },
+        {
+          "role": "cliente",
+          "text": "Ok, quiero 1 caja de cada uno"
+        }
+      ]
+    }
+  ]
+}

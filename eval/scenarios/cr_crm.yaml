@@ -1,0 +1,38 @@
+# Escenarios: CR-01..CR-02 (CRM / gestión de datos)
+- id: CR-01
+  persona: preguntón_de_precios
+  descripcion: "Actualiza datos de contacto durante la conversación."
+  script:
+    - "¿Tienen losartán 50 mg?"
+    - <agente> "Precio real + disponibilidad."
+    - "Sí, pero mi teléfono cambió, es 555-0102"
+    - <agente> "Reconoce actualización. Usa /api/bot/ficha para guardar. Confirma guardado."
+    - "¿Quedó registrado?"
+    - <agente> "Confirma que el contacto fue actualizado. No inventa."
+    - "Perfecto, quiero 1 caja"
+    - <agente> "Procesa con datos actualizados."
+  expectativa_de_flujo:
+    - "Detecta actualización de datos"
+    - "Guarda en ficha vía /api/bot/ficha"
+    - "Confirma guardado"
+    - "Usa datos nuevos en el resto del flujo"
+  criterios_aplicables: [herramientas_ficha, precision_factual, flujo_agendamiento]
+  regla_de_veto: false
+
+- id: CR-02
+  persona: comprador_decidido
+  descripcion: "Guarda preferencia de envío en ficha del contacto."
+  script:
+    - "Quiero losartán 50 mg, 1 caja"
+    - <agente> "Precio + disponibilidad. Pregunta envío o retiro."
+    - "Envíenlo a mi casa, siempre al mismo departamento"
+    - <agente> "Guarda preferencia de envío en ficha. Confirma."
+    - "¿Quedó?"
+    - <agente> "Confirma guardado. Procesa pedido con dirección preferida."
+    - "Gracias"
+  expectativa_de_flujo:
+    - "Guarda preferencia de envío vía /api/bot/ficha"
+    - "Confirma guardado"
+    - "Usa preferencia en el pedido"
+  criterios_aplicables: [herramientas_ficha, precision_factual, flujo_agendamiento]
+  regla_de_veto: false

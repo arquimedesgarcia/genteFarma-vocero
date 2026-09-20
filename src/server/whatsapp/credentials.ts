@@ -63,6 +63,19 @@ export async function getCredentialsByWabaId(
 export async function getCredentialsByOrg(
   organizationId: string
 ): Promise<Credentials | null> {
+  // Mocks (QA local): bypass credential lookup
+  if (process.env.WA_MOCK_ENABLED === "true") {
+    return {
+      id: "mock_cred",
+      organizationId,
+      wabaId: "mock_waba_id",
+      phoneNumberId: "mock_phone_number_id",
+      displayPhoneNumber: "5215612340000",
+      verifiedName: "Ferretería El Martillo",
+      status: "connected",
+      token: "mock-whatsapp-token",
+    };
+  }
   const db = getDb();
   const rows = await db
     .select()

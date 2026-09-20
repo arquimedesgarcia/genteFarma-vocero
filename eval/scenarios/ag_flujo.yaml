@@ -1,0 +1,86 @@
+# Escenarios: AG-01..AG-04 (Flujo de agendamiento)
+- id: AG-01
+  persona: comprador_decidido
+  descripcion: "Compra directa, sin rodeos. Quiere un medicamento genérico específico."
+  script:
+    - "Hola, necesito losartán 50 mg"
+    - <agente> "Confirma disponibilidad en stock y presenta el precio genérico. Pregunta cantidad y forma de entrega."
+    - "Sí, quiero 2 cajas de la opción más económica"
+    - <agente> "Resume carrito, confirma total, pide datos de envío (o recogida en farmacia). No inventa precios."
+    - "Sí, eso es todo, finaliza mi pedido"
+  expectativa_de_flujo:
+    - "Ofrece losartán 50 mg genérico con precio real"
+    - "Confirma 2 cajas y total correcto"
+    - "Pregunta por recogida o envío"
+    - "Cierra el pedido sin fugas de sistema"
+  criterios_aplicables: [precision_factual, flujo_agendamiento, ambiguedad, tono]
+  regla_de_veto: false
+
+- id: AG-02
+  persona: preguntón_de_precios
+  descripcion: "Compara precios, pide genéricos, duda antes de decidir."
+  script:
+    - "¿Qué precio tiene el daflon 500?"
+    - <agente> "Da precio exacto del daflon 500 (tabla con y sin receta si aplica). Pregunta si busca genérico."
+    - "¿Y el genérico más barato?"
+    - <agente> "Muestra precio del genérico y diferencia con el de marca. No inventa savings."
+    - "¿Vale, lo llevo. ¿tengo algo en el carrito de antes?"
+    - <agente> "Consulta el carrito. Si está vacío, lo menciona. Si tiene items, lista con totales."
+    - "Sí, finaliza"
+  expectativa_de_flujo:
+    - "Precio daflon 500 correcto"
+    - "Ofrece genérico con precio real"
+    - "Responde sobre carrito existente"
+    - "Cierra sin fugas"
+  criterios_aplicables: [precision_factual, flujo_agendamiento, herramientas_ficha]
+  regla_de_veto: false
+
+- id: AG-03
+  persona: errores_modismos
+  descripcion: "Escribe con modismos y errores ortográficos, pero quiere comprar rápido."
+  script:
+    - "epa, tienes panadol?"
+    - <agente> "Responde sobre disponibilidad de panadol (acetaminofén). Corrige error sin burla."
+    - "oiga y que me cuesta la fexofenasina?"
+    - <agente> "Da precio correcto de fexofenadina. Propone compra."
+    - "dame 3 cajas de la mas barata de esoz"
+    - <agente> "Confirma esoz genérico más barato, 3 cajas, total. Cierra."
+    - "va, listo, eso es todo vale"
+  expectativa_de_flujo:
+    - "Identifica panadol/acetaminofén correctamente"
+    - "Precio fexofenadina real"
+    - "Precio esoz genérico correcto"
+    - "Cierra pedido"
+  criterios_aplicables: [precision_factual, flujo_agendamiento, tono, ambiguedad]
+  regla_de_veto: false
+
+- id: AG-04
+  persona: comprador_decidido
+  descripcion: "Compra múltiple: varios medicamentos + refill + cambio de diente. Largo (>15 turnos)."
+  script:
+    - "Hola, quiero renovar varios medicamentos"
+    - <agente> "Pregunta qué medicamentos necesita renovar."
+    - "Tengo receta de losartán, daflon y bumetin"
+    - <agente> "Confirma dosis de cada uno. Pregunta dosis + presentación."
+    - "Losartán 50 mg, daflon 500 y bumetin 500 retard"
+    - <agente> "Verifica disponibilidad de los 3. Presenta precios."
+    - "¿Tienen losartán 50 mg genérico?"
+    - <agente> "Confirma disponibilidad genérica. Propone sustituir si aplica."
+    - "Sí, quiero el genérico de losartán, el daflon original y el bumetin retard"
+    - <agente> "Arma carrito con 3 items. Pregunta cantidad de cada uno."
+    - "Una caja de cada uno, por favor"
+    - <agente> "Confirma 1 caja cada uno, calcula total. Pregunta envío."
+    - "¿Hacen envío a domicilio?"
+    - <agente> "Confirma política de envío con costo real. No inventa logística."
+    - "Sí, envíenlo a mi dirección de siempre"
+    - <agente> "Confirma dirección o pide que la actualice. Guarda preferencia si confirma."
+    - "Es la misma de siempre, la del centro"
+    - <agente> "Cierra pedido con número de orden real o de tracking mock. No inventa."
+  expectativa_de_flujo:
+    - "Gestiona 3 medicamentos distintos"
+    - "Ofrece genérico de losartán si aplica"
+    - "Calcula total correcto"
+    - "Confirma política de envío real"
+    - "Cierra con orden de pedido"
+  criterios_aplicables: [precision_factual, flujo_agendamiento, herramientas_ficha, ambiguedad]
+  regla_de_veto: false

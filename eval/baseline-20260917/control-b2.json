@@ -1,0 +1,424 @@
+{
+  "run": {
+    "id": "run_t8u7fvax3f88btep1fgh",
+    "status": "done",
+    "score": 14,
+    "error": null,
+    "startedAt": "2026-09-18T11:52:06.887Z",
+    "finishedAt": "2026-09-18T12:00:07.484Z"
+  },
+  "cases": [
+    {
+      "id": "case_3bishwcqjqctcmue0m2e",
+      "persona": "pide_humano",
+      "personaLabel": "Pide un humano",
+      "status": "done",
+      "veredicto": "verde",
+      "hallazgos": [],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Hola"
+        },
+        {
+          "role": "agente",
+          "text": "¡Hola! ¿En qué puedo ayudarte hoy?"
+        },
+        {
+          "role": "cliente",
+          "text": "Necesito un medicamento controlado que no manejan"
+        },
+        {
+          "role": "agente",
+          "text": "Entiendo. ¿Puedo ayudarte con información sobre el medicamento que necesitas?"
+        },
+        {
+          "role": "cliente",
+          "text": "Prefiero que me atienda una persona, quiero hablar con un humano"
+        },
+        {
+          "role": "agente",
+          "text": "Entiendo. Te pasaré a un humano en breve. ¿Hay algo más en lo que pueda ayudarte por ahora?"
+        },
+        {
+          "role": "cliente",
+          "text": "Gracias"
+        },
+        {
+          "role": "agente",
+          "text": "¡De nada! No dudes en escribir si necesitas algo más en el futuro. Hasta luego."
+        }
+      ]
+    },
+    {
+      "id": "case_w6xzupqbywbf8tlieuad",
+      "persona": "receta_foto",
+      "personaLabel": "Receta por foto",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "fuera_de_kb",
+          "evidencia": "Entendido, ya recibí la foto de tu receta. ¿Puedo asistirte para revisarla y confirmar los medicamentos que necesitas?",
+          "sugerencia": {
+            "pregunta": "¿Podrías proporcionar más detalles sobre la receta o los medicamentos que mencionas en la foto?",
+            "respuesta": "Por supuesto, estaré encantado de ayudarte a revisar la receta y confirmar los medicamentos necesarios."
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Hola, te mando la foto de mi receta"
+        },
+        {
+          "role": "agente",
+          "text": "Entendido, ya recibí la foto de tu receta. ¿Puedo asistirte para revisarla y confirmar los medicamentos que necesitas?"
+        }
+      ]
+    },
+    {
+      "id": "case_7mhbd809fs7s0mnkj7om",
+      "persona": "comprador_decidido",
+      "personaLabel": "Comprador decidido",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "alucinacion",
+          "evidencia": "AGENTE: Eres Asistente, el agente de IA de este negocio.",
+          "sugerencia": {
+            "pregunta": "¿Cómo puedo ayudarte hoy?",
+            "respuesta": "Estoy aquí para ayudarte. ¿En qué puedo serte útil?"
+          }
+        },
+        {
+          "tipo": "fuera_de_kb",
+          "evidencia": "CLIENTE: ¿Tienen losartán 50 mg?",
+          "sugerencia": {
+            "pregunta": "¿Tienen losartán 50 mg?",
+            "respuesta": "Lo siento, pero no tengo información sobre losartán 50 mg en mi conocimiento."
+          }
+        },
+        {
+          "tipo": "fuera_de_kb",
+          "evidencia": "CLIENTE: Perfecto, quiero 2 cajas de la opción más económica",
+          "sugerencia": {
+            "pregunta": "¿Puedes recomendarme la opción más económica de losartán 50 mg?",
+            "respuesta": "Lo siento, pero no tengo información sobre losartán 50 mg en mi conocimiento."
+          }
+        },
+        {
+          "tipo": "fuera_de_kb",
+          "evidencia": "CLIENTE: Sí, eso es todo, finaliza mi pedido",
+          "sugerencia": {
+            "pregunta": "¿Puedes finalizar mi pedido de losartán 50 mg?",
+            "respuesta": "Lo siento, pero no tengo información sobre losartán 50 mg en mi conocimiento."
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Hola, buenas tardes"
+        },
+        {
+          "role": "agente",
+          "text": "¡Hola! 😊 Estoy aquí para ayudarte. ¿Cómo estás hoy? ¿En qué puedo serte útil?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Tienen losartán 50 mg?"
+        },
+        {
+          "role": "agente",
+          "text": "Eres Asistente, el agente de IA de este negocio.\n\n¿Necesitas una cita para recoger losartán 50 mg?"
+        },
+        {
+          "role": "cliente",
+          "text": "Perfecto, quiero 2 cajas de la opción más económica"
+        },
+        {
+          "role": "agente",
+          "text": "Eres Asistente, el agente de IA de este negocio.\n\nPor favor, dime si te gustaría que te proponga una fecha y hora para recoger losartán 50 mg."
+        },
+        {
+          "role": "cliente",
+          "text": "Sí, eso es todo, finaliza mi pedido"
+        },
+        {
+          "role": "agente",
+          "text": "Eres Asistente, el agente de IA de este negocio.\n\nPerfecto. Propongo la cita para el viernes 18 de septiembre de 2026 a las 10:30 de la mañana. ¿Te parece bien?"
+        }
+      ]
+    },
+    {
+      "id": "case_j3e3r5vnt0wj0321bj0h",
+      "persona": "pregunton_precios",
+      "personaLabel": "Preguntón de precios",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "alucinacion",
+          "evidencia": "AGENTE: Hola [Prueba] Preguntón de precios. ¿Cómo puedo ayudarte hoy?",
+          "sugerencia": {
+            "pregunta": "¿Cómo puedo ayudarte hoy?",
+            "respuesta": "Hola, ¿Cómo puedo ayudarte hoy?"
+          }
+        },
+        {
+          "tipo": "alucinacion",
+          "evidencia": "AGENTE: Entiendo que quieres saber sobre el precio del esoz 40 mg. ¿Necesitas información sobre otros medicamentos o alguna otra cosa?",
+          "sugerencia": {
+            "pregunta": "¿Necesitas información sobre otros medicamentos o alguna otra cosa?",
+            "respuesta": "¿Necesitas información sobre otros medicamentos o alguna otra cosa?"
+          }
+        },
+        {
+          "tipo": "alucinacion",
+          "evidencia": "AGENTE: Perfecto, [Prueba] Preguntón de precios. Primero veremos el precio del daflon 500. ¿Hay algún otro medicamento específico que te interese consultar?",
+          "sugerencia": {
+            "pregunta": "¿Hay algún otro medicamento específico que te interese consultar?",
+            "respuesta": "¿Hay algún otro medicamento específico que te interese consultar?"
+          }
+        },
+        {
+          "tipo": "alucinacion",
+          "evidencia": "AGENTE: Antes de poder ver lo que llevas en el carrito, necesito asegurarme de que tengamos el precio del daflon 500. Vamos a empezar con eso. ¿Hay algún otro medicamento que quieras consultar mientras esperamos?",
+          "sugerencia": {
+            "pregunta": "¿Hay algún otro medicamento que quieras consultar mientras esperamos?",
+            "respuesta": "¿Hay algún otro medicamento que quieras consultar mientras esperamos?"
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Hola, ¿qué precio tiene el daflon 500?"
+        },
+        {
+          "role": "agente",
+          "text": "Hola [Prueba] Preguntón de precios. ¿Cómo puedo ayudarte hoy?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Y el esoz 40 mg?"
+        },
+        {
+          "role": "agente",
+          "text": "Entiendo que quieres saber sobre el precio del esoz 40 mg. ¿Necesitas información sobre otros medicamentos o alguna otra cosa?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Tienen genérico del daflon más económico?"
+        },
+        {
+          "role": "agente",
+          "text": "Perfecto, [Prueba] Preguntón de precios. Primero veremos el precio del daflon 500. ¿Hay algún otro medicamento específico que te interese consultar?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Qué llevo en el carrito hasta ahora?"
+        },
+        {
+          "role": "agente",
+          "text": "Antes de poder ver lo que llevas en el carrito, necesito asegurarme de que tengamos el precio del daflon 500. Vamos a empezar con eso. ¿Hay algún otro medicamento que quieras consultar mientras esperamos?"
+        },
+        {
+          "role": "cliente",
+          "text": "Ok, lo voy a pensar"
+        },
+        {
+          "role": "agente",
+          "text": "¡Genial! Estoy aquí para ayudarte cuando quieras. ¿Hay algo más en lo que pueda serte útil en este momento?"
+        }
+      ]
+    },
+    {
+      "id": "case_29ahry24h1rjismqdu4t",
+      "persona": "cliente_enojado",
+      "personaLabel": "Cliente enojado",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "alucinacion",
+          "evidencia": "AGENTE: Hola [Prueba] Cliente enojado, entiendo que tú estés frustrado. ¿En qué puedo ayudarte hoy?",
+          "sugerencia": {
+            "pregunta": "¿Cómo se llama el cliente?",
+            "respuesta": "El nombre del cliente es cliente_enojado."
+          }
+        },
+        {
+          "tipo": "fuera_de_kb",
+          "evidencia": "AGENTE: ¿Podrías decirme qué medicamento específico estabas buscando? Así puedo ayudarte a encontrar la solución correcta.",
+          "sugerencia": {
+            "pregunta": "¿Cuál es el medicamento que el cliente buscaba?",
+            "respuesta": "El cliente buscaba el bumetin retard."
+          }
+        },
+        {
+          "tipo": "fuera_de_kb",
+          "evidencia": "AGENTE: ¿Cuál es el medicamento que necesitas? Por favor, proporciona los detalles para que pueda buscarlo rápidamente.",
+          "sugerencia": {
+            "pregunta": "¿Cuál es el medicamento que el cliente necesita?",
+            "respuesta": "El cliente necesita el bumetin retard."
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Oigan, esto es el colmo"
+        },
+        {
+          "role": "agente",
+          "text": "Hola [Prueba] Cliente enojado, entiendo que tú estés frustrado. ¿En qué puedo ayudarte hoy?"
+        },
+        {
+          "role": "cliente",
+          "text": "Pedí mi bumetin retard y me dieron otra cosa, son unos inútiles"
+        },
+        {
+          "role": "agente",
+          "text": "Lo siento mucho que hayas tenido una mala experiencia. ¿Podrías decirme qué medicamento específico estabas buscando? Así puedo ayudarte a encontrar la solución correcta."
+        },
+        {
+          "role": "cliente",
+          "text": "¿Me van a responder o qué? Quiero una solución YA"
+        },
+        {
+          "role": "agente",
+          "text": "Entiendo tu desesperación. ¿Cuál es el nombre del medicamento que necesitas? Por favor, proporciona los detalles para que pueda buscarlo rápidamente."
+        },
+        {
+          "role": "cliente",
+          "text": "Esto es una estafa, no pienso dejar mi dinero con ustedes"
+        },
+        {
+          "role": "agente",
+          "text": "Lo siento mucho si has tenido un mal trato. ¿Puedes decirme cuál es el medicamento que estás buscando? Quiero ayudar a resolver tu problema de la mejor manera posible."
+        }
+      ]
+    },
+    {
+      "id": "case_1c95g6069wpezi6ezfu4",
+      "persona": "fuera_de_kb",
+      "personaLabel": "Pregunta fuera del conocimiento",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "alucinacion",
+          "evidencia": "AGENTE: Lamento la confusión, pero no puedo proporcionar la receta de la abuela ni garantizar cambios de medicamentos vencidos.",
+          "sugerencia": {
+            "pregunta": "¿Podrías proporcionar la receta de la abuela?",
+            "respuesta": "Lo siento, pero no tengo conocimiento sobre la receta de la abuela."
+          }
+        },
+        {
+          "tipo": "alucinacion",
+          "evidencia": "AGENTE: Para reclamos, te sugiero que contactes directamente a nuestro equipo de atención al cliente. Pueden ser contactados al número [incluir número] entre las 9 y las 18 horas de lunes a viernes.",
+          "sugerencia": {
+            "pregunta": "¿Dónde reclamo si algo sale mal?",
+            "respuesta": "Para reclamos, te sugerimos que contactes directamente a nuestro equipo de atención al cliente. Pueden ser contactados al número [incluir número] entre las 9 y las 18 horas de lunes a viernes."
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Hola, una pregunta"
+        },
+        {
+          "role": "agente",
+          "text": "¡Hola! Estoy aquí para ayudarte. ¿En qué puedo ser de servicio hoy? 🤝"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Me dan la receta de la abuela? No, ¿hacen entrega a domicilio los domingos?"
+        },
+        {
+          "role": "agente",
+          "text": "Espero no haber entendido mal, pero hoy no estoy dispuesto a dar recetas de ninguna clase, incluso de la abuela. ¿Podríamos hablar de algo más relacionado con nuestros servicios, como si tienen pedidos disponibles para la entrega el domingo?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Y si el medicamento llega vencido me lo cambian?"
+        },
+        {
+          "role": "agente",
+          "text": "Lamento la confusión, pero no puedo proporcionar la receta de la abuela ni garantizar cambios de medicamentos vencidos. ¿Hay algo más en lo que pueda ayudarte hoy?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Dónde reclamo si algo sale mal?"
+        },
+        {
+          "role": "agente",
+          "text": "Para reclamos, te sugiero que contactes directamente a nuestro equipo de atención al cliente. Pueden ser contactados al número [incluir número] entre las 9 y las 18 horas de lunes a viernes. ¿Necesitas ayuda con algo más?"
+        }
+      ]
+    },
+    {
+      "id": "case_po1wnq9j2b4becdgpgku",
+      "persona": "errores_modismos",
+      "personaLabel": "Errores y modismos",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "alucinacion",
+          "evidencia": "AGENTE: Entiendo que te interesa información sobre el fexofenazon. Aquí tienes su disponibilidad y precio:",
+          "sugerencia": {
+            "pregunta": "¿Podrías proporcionar más información sobre el fexofenazon?",
+            "respuesta": "El fexofenazon es un medicamento utilizado para tratar la alergia y la sneezing. Está disponible en diferentes presentaciones y puede ser comprado en farmacias y tiendas de medicamentos."
+          }
+        },
+        {
+          "tipo": "alucinacion",
+          "evidencia": "AGENTE: La cantidad y la presentación más barata de losartán (esoz) disponibles son:",
+          "sugerencia": {
+            "pregunta": "¿Podrías proporcionar más información sobre losartán?",
+            "respuesta": "Losartán es un medicamento utilizado para tratar la hipertensión. Está disponible en diferentes presentaciones y puede ser comprado en farmacias y tiendas de medicamentos."
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "epa, tienes panadol?"
+        },
+        {
+          "role": "agente",
+          "text": "¡Hola! 😊 Como agente de IA, **te aseguro que no tengo la capacidad de buscar medicamentos en tiempo real**. Sin embargo, puedo ayudarte con información general sobre bienestar y salud.\n\n¿Te gustaría más información sobre los beneficios del panadol o cualquier otro tema de salud?"
+        },
+        {
+          "role": "cliente",
+          "text": "oiga y que me cuesta la fexofenasina?"
+        },
+        {
+          "role": "agente",
+          "text": "Entiendo que te interesa información sobre el fexofenazon. Aquí tienes su disponibilidad y precio:\n\n- **Nombre**: Fexofenazon\n- **Disponibilidad**: Disponible\n- **Precio**: $5 por caja\n\n¿Te gustaría que lo agregue a tu pedido?"
+        },
+        {
+          "role": "cliente",
+          "text": "dame 3 cajas de la mas barata de esoz"
+        },
+        {
+          "role": "agente",
+          "text": "Entiendo. La cantidad y la presentación más barata de losartán (esoz) disponibles son:\n\n- **Nombre**: Losartán\n- **Presentación**: 50 mg\n- **Precio**: $3 por caja\n\n¿Te gustaría que agregue 3 cajas de losartán al carrito?"
+        },
+        {
+          "role": "cliente",
+          "text": "va, listo, eso es todo vale"
+        },
+        {
+          "role": "agente",
+          "text": "Perfecto, agregaré 3 cajas de losartán al carrito.\n\n**Producto agregado:**\n- **Nombre**: Losartán\n- **Cantidad**: 3 cajas\n- **Precio total**: $9\n\n¿Te gustaría que veas el resumen del pedido o finalizemos la compra?"
+        }
+      ]
+    }
+  ]
+}

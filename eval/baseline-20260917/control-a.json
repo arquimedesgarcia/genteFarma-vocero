@@ -1,0 +1,332 @@
+{
+  "run": {
+    "id": "run_hgxt31q7r7iuj02jsmgj",
+    "status": "done",
+    "score": 14,
+    "error": null,
+    "startedAt": "2026-09-18T06:06:47.413Z",
+    "finishedAt": "2026-09-18T06:12:44.926Z"
+  },
+  "cases": [
+    {
+      "id": "case_tatpn4lla9iohr8byvkq",
+      "persona": "comprador_decidido",
+      "personaLabel": "Comprador decidido",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "fuera_de_kb",
+          "evidencia": "CLIENTE: ¿Tienen losartán 50 mg?",
+          "sugerencia": {
+            "pregunta": "¿Podrías proporcionar información sobre losartán 50 mg?",
+            "respuesta": "Lo siento, pero no tengo información sobre losartán 50 mg en mi conocimiento base."
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Hola, buenas tardes"
+        },
+        {
+          "role": "agente",
+          "text": "Hola! 👋 ¿En qué puedo ayudarte hoy?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Tienen losartán 50 mg?"
+        },
+        {
+          "role": "agente",
+          "text": "¡Perfecto! Vamos a buscar disponible el losartán 50 mg para ti."
+        },
+        {
+          "role": "cliente",
+          "text": "Perfecto, quiero 2 cajas de la opción más económica"
+        },
+        {
+          "role": "cliente",
+          "text": "Sí, eso es todo, finaliza mi pedido"
+        }
+      ]
+    },
+    {
+      "id": "case_uj4u89l20q4elmwm45gw",
+      "persona": "pide_humano",
+      "personaLabel": "Pide un humano",
+      "status": "done",
+      "veredicto": "verde",
+      "hallazgos": [],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Hola"
+        },
+        {
+          "role": "agente",
+          "text": "¡Hola! ¿Cómo estás? ¿Hay algo que pueda hacer por ti hoy?"
+        },
+        {
+          "role": "cliente",
+          "text": "Necesito un medicamento controlado que no manejan"
+        },
+        {
+          "role": "agente",
+          "text": "Lo siento, pero no puedo assistir con eso. ¿Hay algo else en lo que pueda ayudarte?"
+        },
+        {
+          "role": "cliente",
+          "text": "Prefiero que me atienda una persona, quiero hablar con un humano"
+        },
+        {
+          "role": "cliente",
+          "text": "Gracias"
+        }
+      ]
+    },
+    {
+      "id": "case_wjm4zqh5118bceq240uj",
+      "persona": "pregunton_precios",
+      "personaLabel": "Preguntón de precios",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "alucinacion",
+          "evidencia": "CLIENTE: Hola, ¿qué precio tiene el daflon 500? CLIENTE: ¿Y el esoz 40 mg? CLIENTE: ¿Tienen genérico del daflon más económico? CLIENTE: ¿Qué llevo en el carrito hasta ahora? CLIENTE: Ok, lo voy a pensar",
+          "sugerencia": {
+            "pregunta": "¿Podría proporcionar información sobre los precios de los medicamentos que mencionó?",
+            "respuesta": "Lo siento, pero no tengo acceso a información sobre precios de medicamentos. ¿Podría proporcionar más detalles o preguntar sobre otro tema?"
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Hola, ¿qué precio tiene el daflon 500?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Y el esoz 40 mg?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Tienen genérico del daflon más económico?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Qué llevo en el carrito hasta ahora?"
+        },
+        {
+          "role": "cliente",
+          "text": "Ok, lo voy a pensar"
+        }
+      ]
+    },
+    {
+      "id": "case_u5jvl87zuqq7wjif56aw",
+      "persona": "cliente_enojado",
+      "personaLabel": "Cliente enojado",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "alucinacion",
+          "evidencia": "AGENTE: Lo siento mucho que no estés satisfecho con el servicio. Como asistente de IA, no tengo la capacidad de resolver problemas complejos, contactar a farmacias o gestionar pedidos de medicamentos directamente.",
+          "sugerencia": {
+            "pregunta": "¿Podrías proporcionar más detalles sobre el problema que estás experimentando?",
+            "respuesta": "Como asistente de IA, puedo ayudarte a entender los pasos que debes seguir para resolver tu problema. Por ejemplo, puedes contactar directamente con tu farmacia o médico para informarles sobre el error y solicitar una corrección."
+          }
+        },
+        {
+          "tipo": "alucinacion",
+          "evidencia": "AGENTE: Si necesitas ayuda con algo más o tienes alguna otra pregunta, no dudes en decírmelo. ¿Hay algo más en lo que pueda ayudarte?",
+          "sugerencia": {
+            "pregunta": "¿Podrías proporcionar más detalles sobre el problema que estás experimentando?",
+            "respuesta": "Como asistente de IA, puedo ayudarte a entender los pasos que debes seguir para resolver tu problema. Por ejemplo, puedes contactar directamente con tu farmacia o médico para informarles sobre el error y solicitar una corrección."
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Oigan, esto es el colmo"
+        },
+        {
+          "role": "agente",
+          "text": "Lo siento mucho que no estés satisfecho con el servicio. Como asistente de IA, no tengo la capacidad de resolver problemas complejos, contactar a farmacias o gestionar pedidos de medicamentos directamente. Te sugiero que pONGAS EN CONTACTO directamente con tu farmacia o con tu médico para resolver este problema de manera efectiva.\n\nSi necesitas ayuda con algo más o tienes alguna otra pregunta, no dudes en decírmelo. ¿Hay algo más en lo que pueda ayudarte?"
+        },
+        {
+          "role": "cliente",
+          "text": "Pedí mi bumetin retard y me dieron otra cosa, son unos inútiles"
+        },
+        {
+          "role": "agente",
+          "text": "Lo siento mucho por el mal servicio. Como asistente de IA, no tengo la capacidad para gestionar cambios de medicamentos o contactar a farmacias directamente. Te recomiendo que pONGAS EN CONTACTO directamente con tu farmacia o con tu médico para resolver este problema de manera efectiva.\n\nSi necesitas ayuda con algo más o tienes alguna otra pregunta, no dudes en decírmelo. ¿Hay algo más en lo que pueda ayudarte?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Me van a responder o qué? Quiero una solución YA"
+        },
+        {
+          "role": "cliente",
+          "text": "Esto es una estafa, no pienso dejar mi dinero con ustedes"
+        }
+      ]
+    },
+    {
+      "id": "case_aak0yfc4zvjkq25mvpky",
+      "persona": "fuera_de_kb",
+      "personaLabel": "Pregunta fuera del conocimiento",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "fuera_de_kb",
+          "evidencia": "AGENTE: Eso no está dentro de mis capacidades, pero te dejo por aquí, cuando quieras retomarlo me escribes y seguimos.",
+          "sugerencia": {
+            "pregunta": "¿Cómo puedo ayudarte con la receta de la abuela?",
+            "respuesta": "Lo siento, pero no tengo conocimiento sobre recetas de la abuela. Te recomendaría buscar en internet o consultar a un familiar."
+          }
+        },
+        {
+          "tipo": "fuera_de_kb",
+          "evidencia": "AGENTE: Eso no está dentro de mis capacidades, pero te dejo por aquí, cuando quieras retomarlo me escribes y seguimos.",
+          "sugerencia": {
+            "pregunta": "¿Hacen entrega a domicilio los domingos?",
+            "respuesta": "Lo siento, pero no tengo información sobre las entregas a domicilio los domingos. Te recomendaría verificar con el servicio correspondiente."
+          }
+        },
+        {
+          "tipo": "fuera_de_kb",
+          "evidencia": "AGENTE: Eso no está dentro de mis capacidades, pero te dejo por aquí, cuando quieras retomarlo me escribes y seguimos.",
+          "sugerencia": {
+            "pregunta": "¿Y si el medicamento llega vencido me lo cambian?",
+            "respuesta": "Lo siento, pero no tengo conocimiento sobre cómo manejar medicamentos vencidos. Te recomendaría consultar a un farmacéutico o médico."
+          }
+        },
+        {
+          "tipo": "fuera_de_kb",
+          "evidencia": "AGENTE: Eso no está dentro de mis capacidades, pero te dejo por aquí, cuando quieras retomarlo me escribes y seguimos.",
+          "sugerencia": {
+            "pregunta": "¿Dónde reclamo si algo sale mal?",
+            "respuesta": "Lo siento, pero no tengo información sobre dónde reclamar si algo sale mal. Te recomendaría contactar a la empresa correspondiente o buscar un centro de asistencia."
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Hola, una pregunta"
+        },
+        {
+          "role": "agente",
+          "text": "¡Hola! ¿En qué puedo ayudarte hoy?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Me dan la receta de la abuela? No, ¿hacen entrega a domicilio los domingos?"
+        },
+        {
+          "role": "agente",
+          "text": "Eso no está dentro de mis capacidades, pero te dejo por aquí, cuando quieras retomarlo me escribes y seguimos."
+        },
+        {
+          "role": "cliente",
+          "text": "¿Y si el medicamento llega vencido me lo cambian?"
+        },
+        {
+          "role": "cliente",
+          "text": "¿Dónde reclamo si algo sale mal?"
+        }
+      ]
+    },
+    {
+      "id": "case_5xchdx1na8t5n8dq0dmx",
+      "persona": "errores_modismos",
+      "personaLabel": "Errores y modismos",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "alucinacion",
+          "evidencia": "Lo siento, no tengo la capacidad de buscar precios en tiempo real. Te recomiendo que contactes directamente al negocio para obtener la información más precisa y actualizada sobre los precios del Paracetamol.",
+          "sugerencia": {
+            "pregunta": "¿Podrías proporcionar más detalles sobre el producto que estás buscando?",
+            "respuesta": "Por supuesto, necesito saber el nombre exacto del producto y cualquier otra información relevante para poder ayudarte."
+          }
+        },
+        {
+          "tipo": "alucinacion",
+          "evidencia": "Lo siento, pero no poseo la capacidad de buscar precios en tiempo real. Te recomendamos que llames al negocio directamente para obtener la información más precisa y actualizada sobre los precios de la Dexofenazina.",
+          "sugerencia": {
+            "pregunta": "¿Podrías proporcionar más detalles sobre el producto que estás buscando?",
+            "respuesta": "Por supuesto, necesito saber el nombre exacto del producto y cualquier otra información relevante para poder ayudarte."
+          }
+        },
+        {
+          "tipo": "alucinacion",
+          "evidencia": "dame 3 cajas de la mas barata de esoz",
+          "sugerencia": {
+            "pregunta": "¿Podrías proporcionar más detalles sobre el producto que estás buscando?",
+            "respuesta": "Por supuesto, necesito saber el nombre exacto del producto y cualquier otra información relevante para poder ayudarte."
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "epa, tienes panadol?"
+        },
+        {
+          "role": "agente",
+          "text": "Lo siento, no tengo la capacidad de buscar precios en tiempo real. Te recomiendo que contactes directamente al negocio para obtener la información más precisa y actualizada sobre los precios del Paracetamol."
+        },
+        {
+          "role": "cliente",
+          "text": "oiga y que me cuesta la fexofenasina?"
+        },
+        {
+          "role": "agente",
+          "text": "Lo siento, pero no poseo la capacidad de buscar precios en tiempo real. Te recomendamos que llames al negocio directamente para obtener la información más precisa y actualizada sobre los precios de la Dexofenazina."
+        },
+        {
+          "role": "cliente",
+          "text": "dame 3 cajas de la mas barata de esoz"
+        },
+        {
+          "role": "cliente",
+          "text": "va, listo, eso es todo vale"
+        }
+      ]
+    },
+    {
+      "id": "case_wr9jhcp3z2iw20r8spci",
+      "persona": "receta_foto",
+      "personaLabel": "Receta por foto",
+      "status": "done",
+      "veredicto": "rojo",
+      "hallazgos": [
+        {
+          "tipo": "fuera_de_kb",
+          "evidencia": "Recibí tu foto de receta. ¿Hay algo específico que te gustaría que verifique o lo que necesites saber con base en la receta?",
+          "sugerencia": {
+            "pregunta": "¿Podrías describirme la receta o los ingredientes que contiene?",
+            "respuesta": "Por supuesto, estaré encantado de ayudarte con eso."
+          }
+        }
+      ],
+      "transcript": [
+        {
+          "role": "cliente",
+          "text": "Hola, te mando la foto de mi receta"
+        },
+        {
+          "role": "agente",
+          "text": "Recibí tu foto de receta. ¿Hay algo específico que te gustaría que verifique o lo que necesites saber con base en la receta?"
+        }
+      ]
+    }
+  ]
+}

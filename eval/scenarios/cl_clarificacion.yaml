@@ -1,0 +1,92 @@
+# Escenarios: CL-01..CL-05 (Clarificacion de ambiguedad)
+- id: CL-01
+  persona: preguntón_de_precios
+  descripcion: "Pregunta generica '¿cuanto?' sin especificar medicamento."
+  script:
+    - "¿Cuánto cuesta?"
+    - "<agente> Pregunta que medicamento quiere. No da precio generico sin contexto."
+    - "Bueno, de esos que me recomendaron"
+    - "<agente> No asume. Pregunta explicitamente: ¿que medicamento? No adivina del contexto."
+    - "El daflon"
+    - "<agente> Confirma daflon especifico y presentacion. Da precio."
+  expectativa_de_flujo:
+    - "Pide clarificacion antes de precio"
+    - "No adivina medicamento del contexto"
+    - "Confirma presentacion antes de precio"
+  criterios_aplicables: [ambiguedad, precision_factual, tono]
+  regla_de_veto: false
+
+- id: CL-02
+  persona: comprador_decidido
+  descripcion: "Dice 'dame uno de esos' sin nombre especifico."
+  script:
+    - "Tengo receta de algo para la presión"
+    - "<agente> Pregunta que medicamento especifico. No asume losartán sin confirmar."
+    - "Dame uno de esos"
+    - "<agente> Pide nombre exacto o foto de receta. No elige por adivinar."
+    - "Es para presión alta, el que visto"
+    - "<agente> Ofrece buscar en KB por indicacion. Pregunta confirmacion explicita antes de vender."
+    - "Losartán 50 mg, ese es"
+    - "<agente> Confirma y procesa."
+  expectativa_de_flujo:
+    - "Pregunta nombre exacto, no adivina"
+    - "No vende por indicacion sin confirmacion"
+    - "Confirma antes de procesar"
+  criterios_aplicables: [ambiguedad, precision_factual, flujo_agendamiento]
+  regla_de_veto: false
+
+- id: CL-03
+  persona: errores_modismos
+  descripcion: "Abreviaturas y modismos confusos."
+  script:
+    - "oq hay d esoz pa el dolor?"
+    - "<agente> Interpreta: pregunta de esoz para dolor. Pregunta confirmacion: esoz que presentacion?"
+    - "50, el q sale barato"
+    - "<agente> No asume 50 mg sin confirmar. Pregunta dosis exacta."
+    - "dale esoz 50 mg generico"
+    - "<agente> Confirma esoz 50 mg generico. Da precio real."
+    - "ok"
+  expectativa_de_flujo:
+    - "Interpeta abreviaturas, confirma"
+    - "No asume dosis de '50'"
+    - "Procesa con confirmaciones"
+  criterios_aplicables: [ambiguedad, precision_factual, robustez, tono]
+  regla_de_veto: false
+
+- id: CL-04
+  persona: fuera_de_kb
+  descripcion: "Pregunta ambigua sobre 'lo del dolor de espalda'."
+  script:
+    - "Necesito algo para el dolor que me hablaste"
+    - "<agente> Pregunta en que conversacion/historial se refiere. No asume sin contexto."
+    - "No, es nuevo, el dolor de espalda"
+    - "<agente> Pregunta tipo de dolor (agudo/cronico), intensidad. No prescribe sin mas."
+    - "Agudo, de repente, como punzada"
+    - "<agente> Propone analgesico real para dolor agudo segun KB. Ajusta dosis a edad si pregunta."
+    - "para adulto de 35 años"
+    - "<agente> Da dosis adulta real del KB. Ofrece compra."
+  expectativa_de_flujo:
+    - "Pide contexto antes de recomendar"
+    - "Clasifica tipo de dolor antes de tratar"
+    - "Dosis real segun KB y edad"
+  criterios_aplicables: [ambiguedad, precision_factual, tono]
+  regla_de_veto: false
+
+- id: CL-05
+  persona: preguntón_de_precios
+  descripcion: "Pregunta por 'el mismo que me diste la otra vez' — sin contexto previo."
+  script:
+    - "¿Me das el mismo que la otra vez?"
+    - "<agente> Pregunta cual fue la otra vez. No asume sin historial. Pide identificacion."
+    - "No recuerdo bien, era para el dolor"
+    - "<agente> Ofrece buscar por sintoma si el KB lo permite. Pregunta receta o sin receta."
+    - "Sin receta, para dolor general"
+    - "<agente> Propone opciones reales del KB para dolor general. Da precios."
+    - "El más barato"
+    - "<agente> Da mas barato real. Cierra."
+  expectativa_de_flujo:
+    - "No asume producto sin contexto"
+    - "Busca por sintoma dentro del KB"
+    - "Propone opcion real mas barata"
+  criterios_aplicables: [ambiguedad, precision_factual, flujo_agendamiento, tono]
+  regla_de_veto: false

@@ -42,6 +42,18 @@ export function hashToken(token: string): string {
 export async function getEvolutionCredentialsByOrg(
   organizationId: string
 ): Promise<EvolutionCredentials | null> {
+  // Mocks (QA local): bypass credential lookup
+  if (process.env.WA_MOCK_ENABLED === "true") {
+    return {
+      id: "ec_mock",
+      organizationId,
+      instanceName: "Mock WA Instance",
+      instanceToken: "mock-evolution-token",
+      instanceId: "mock_instance_id",
+      jid: "5215612340000@s.whatsapp.net",
+      status: "connected",
+    };
+  }
   const db = getDb();
   const rows = await db
     .select()

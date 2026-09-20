@@ -45,7 +45,8 @@ export async function judgeCase(input: {
       { role: "system", content: system },
       { role: "user", content: user },
     ],
-    { judge: true }
+    // Judge determinista: temperatura 0 reduce el ruido entre corridas (T3).
+    { judge: true, temperature: 0 }
   );
   if (!result.ok) {
     // Diagnóstico operativo: el caso queda visible como judge_failed y aquí

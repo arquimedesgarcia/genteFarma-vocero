@@ -23,7 +23,7 @@ const RETRY_DELAY_MS = 500;
 export async function chatJson<T>(
   schema: z.ZodType<T>,
   messages: ChatMessage[],
-  opts?: { model?: string; judge?: boolean; timeoutMs?: number }
+  opts?: { model?: string; judge?: boolean; timeoutMs?: number; temperature?: number }
 ): Promise<ChatJsonResult<T>> {
   if (!isAiConfigured()) {
     return {
@@ -60,7 +60,7 @@ export async function chatJson<T>(
             },
           ];
     try {
-      const raw = await callProvider(model, attemptMessages, opts?.timeoutMs);
+      const raw = await callProvider(model, attemptMessages, opts?.timeoutMs, opts?.temperature);
       const extracted = extractJson(raw);
       if (extracted === null) {
         lastDetail = `sin JSON extraíble (raw=${truncate(raw)})`;
@@ -94,7 +94,8 @@ export async function chatJson<T>(
 async function callProvider(
   model: string,
   messages: ChatMessage[],
-  timeoutMs = 60_000
+  timeoutMs = 60_000,
+  temperature?: number
 ): Promise<string> {
   const env = getEnv();
   const controller = new AbortController();
@@ -107,7 +108,7 @@ async function callProvider(
         Authorization: `Bearer ${env.OPENROUTER_API_TOKEN}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ model, messages }),
+      body: JSON.stringify({ model, messages, ...(temperature !== undefined ? { temperature } : {}) }),
       signal: controller.signal,
     });
     if (!res.ok) {

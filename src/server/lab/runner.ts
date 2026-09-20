@@ -18,7 +18,9 @@ import { renderKb } from "@/server/ai/prompts";
  * si algo intenta enviarlas.
  */
 
-const RUN_TIMEOUT_MS = 10 * 60 * 1000;
+// QA T6: el modo farmacia real (loops de herramientas por turno) tarda más
+// que el chico de agendamiento. 11 casos observados ≈ 13-18 min → 30 min.
+const RUN_TIMEOUT_MS = 30 * 60 * 1000;
 
 export class RunConflictError extends Error {}
 

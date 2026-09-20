@@ -99,12 +99,12 @@ function stripEmpty(env: NodeJS.ProcessEnv): Record<string, string> {
   return out;
 }
 
-/** true si el entorno de pruebas interno (mocks) está habilitado y NO es producción. */
+/** true si el entorno de pruebas interno (mocks) está habilitado.
+ *  NOTA: el standalone server.js de Next.js hardcodea NODE_ENV='production',
+ *  por lo que no podemos confiar en process.env.NODE_ENV. El flag WA_MOCK_ENABLED
+ *  es el gate explícito: cuando es true, los mocks están activos sin importar NODE_ENV. */
 export function isMockEnabled(): boolean {
-  return (
-    process.env.WA_MOCK_ENABLED === "true" &&
-    process.env.NODE_ENV !== "production"
-  );
+  return process.env.WA_MOCK_ENABLED === "true";
 }
 
 /** true si hay proveedor de IA configurado (token presente y no vacío). */

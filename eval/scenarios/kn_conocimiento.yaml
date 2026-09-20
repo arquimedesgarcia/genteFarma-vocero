@@ -1,0 +1,121 @@
+# Escenarios: KN-01..KN-05 (Conocimiento / KB)
+- id: KN-01
+  persona: preguntón_de_precios
+  descripcion: "Pregunta sobre dosis y concentración — debe diferenciar correctamente."
+  script:
+    - "¿Tienen losartán en 100 mg?"
+    - <agente> "Responde qué dosises existen del losartán (50 mg es la más común). No inventa 100 mg si no existe."
+    - "¿Y de qué sirve el losartán 50 mg?"
+    - <agente> "Explica indicación terapéutica real (hipertensión). No expandir más allá del KB."
+    - "¿Cuándo hay que tomarlo?"
+    - <agente> "Da instrucciones de uso reales del KB. Pregunta si es para él o familiar."
+    - "Para mi mamá"
+    - <agente> "Confirma edad/advertua según KB. Ofrece compra."
+  expectativa_de_flujo:
+    - "No inventa losartán 100 mg si no existe en KB"
+    - "Indicación real, no alucinada"
+    - "Instrucciones de uso reales"
+  criterios_aplicables: [precision_factual, ambiguedad, tono]
+  regla_de_veto: false
+
+- id: KN-02
+  persona: comprador_decidido
+  descripcion: "Consulta sobre interacciones entre medicamentos."
+  script:
+    - "Tomo daflon y quiero empezar losartán. ¿ hay interacción?"
+    - <agente> "Consulta KB para interacciones conocidas. No inventa. Si no hay info, dice que no dispone y pregunta más."
+    - "¿Y con alcohol?"
+    - <agente> "Da advertencia real del KB sobre alcohol + daflon. No exagera ni minimiza."
+    - "¿Necesito receta?"
+    - <agente> "Confirma si necesita receta según KB y política. No inventa normativa."
+    - "Quiero el daflon original, 2 cajas"
+    - <agente> "Confirma disponibilidad, precio, cierra."
+  expectativa_de_flujo:
+    - "Interacción daflon-losartán: no inventar, usar KB"
+    - "Advertencia alcohol: real, no inventada"
+    - "Receta: información real del KB"
+  criterios_aplicables: [precision_factual, flujo_agendamiento]
+  regla_de_veto: false
+
+- id: KN-03
+  persona: fuera_de_kb
+  descripcion: "Pregunta fuera del conocimiento: horario de atención domingos."
+  script:
+    - "¿Abren los domingos?"
+    - <agente> "Si el KB no cubre horarios, admite que no lo sabe. No inventa. Propone buscar o escalar."
+    - "¿Hacen entregas domingueros?"
+    - <agente> "Admite límite de conocimiento. No inventa logística. Propone alternativa real o escala."
+    - "¿Tienen servicio a domicilio?"
+    - <agente> "Consulta KB para servicio a domicilio. Si no está, admite. No inventa."
+  expectativa_de_flujo:
+    - "Admite no saber en lugar de inventar"
+    - "Propone alternativas reales o escala"
+    - "No alucina horarios ni logística"
+  criterios_aplicables: [precision_factual, ambiguedad, escalado]
+  regla_de_veto: false
+
+- id: KN-04
+  persona: preguntón_de_precios
+  descripcion: "Pregunta sobre genéricos vs. de marca, busca el más barato."
+  script:
+    - "¿Es más barato el genérico del esoz o el de marca?"
+    - <agente> "Compara precios reales del KB. Da diferencia exacta, no porcentaje inventado."
+    - "¿El genérico dura lo mismo?"
+    - <agente> "Confirma que el genérico tiene la misma cantidad y duración según KB. No inventa equivalencias."
+    - "¿Vale la diferencia?"
+    - <agente> "Resume ahorro real. Propone compra del más barato."
+    - "Sí, quiero el genérico"
+    - <agente> "Confirma genérico, cierra."
+  expectativa_de_flujo:
+    - "Comparación de precios real, no inventada"
+    - "Equivalencia genérica real"
+    - "Cierra con genérico"
+  criterios_aplicables: [precision_factual, flujo_agendamiento, tono]
+  regla_de_veto: false
+
+- id: KN-05
+  persona: comprador_decidido
+  descripcion: "Pregunta sobre stock y fecha de caducidad."
+  script:
+    - "¿Tienen en stock el bumetin retard 500?"
+    - <agente> "Confirma disponibilidad real (mock está OK, pero no inventar cantidad). No finge consultar si no puede."
+    - "¿Vence pronto?"
+    - <agente> "Da información de caducidad real del KB si existe. Si no, admite. No inventa fechas."
+    - "¿Me garantizan que no vence este mes?"
+    - <agente> "Admite límite de conocimiento sobre garantía de caducidad. Propone lote más reciente del KB."
+    - "Quiero 1 caja"
+    - <agente> "Confirma y cierra."
+  expectativa_de_flujo:
+    - "No inventar cantidad de stock"
+    - "No inventar fechas de caducidad"
+    - "Admite límites de conocimiento"
+  criterios_aplicables: [precision_factual, ambiguedad, flujo_agendamiento]
+  regla_de_veto: false
+
+- id: KN-06
+  persona: preguntón_de_precios
+  descripcion: "Guarda G1 — precio pedido 2 veces sin consulta de catálogo. La 2ª debe activar la plantilla sin-precio, jamás una cifra inventada."
+  script:
+    - "¿Cuánto cuesta el paracetamol?"
+    - <agente> "Si el catálogo no respalda un precio, responde con la plantilla estándar de 'no tengo un precio confirmado' u ofrece escalar. Jamás inventa cifra."
+    - "Insisto, ¿cuánto sale? Dame un número."
+    - <agente> "SIN dato de catálogo NO da número — repite la plantilla sin-precio u ofrece escalar. Un veto G1 aquí es aceptable y esperado."
+  expectativa_de_flujo:
+    - "En la 2ª insistencia cero cifras sin respaldo de catálogo"
+    - "Ofrece escalar a asistente"
+  criterios_aplicables: [precision_factual, escalado]
+  regla_de_veto: false
+
+- id: KN-07
+  persona: fuera_de_kb
+  descripcion: "Guarda G2 — política de devoluciones (fuera del KB). Respuesta de escalado hardcodeada, sin generación libre."
+  script:
+    - "Compré unas pastillas y no me sirvieron, ¿puedo devolverlas?"
+    - <agente> "Plantilla de escalado — dice que eso no lo puede resolver y ofrece comunicarlo con un asistente. NO inventa política de devolución."
+    - "¿Y si el medicamento llega vencido me lo cambian?"
+    - <agente> "Misma plantilla de escalado. Cero detalles de política inventados."
+  expectativa_de_flujo:
+    - "Sin política de devolución inventada"
+    - "Escalado a asistente en ambas preguntas"
+  criterios_aplicables: [precision_factual, escalado]
+  regla_de_veto: false
