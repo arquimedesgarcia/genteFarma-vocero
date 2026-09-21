@@ -20,3 +20,15 @@ Base: `src/server/ai/prompts.ts` → `buildJudgePrompt` (rama agent-qa). Cambios
 **Nivel de score:** 82-91 con el MISMO agente 14B+guardas que scored 27 con juez v1 → la mayor parte del gap era sobre-marcado del juez, como sospechaba F4. Los rojos legítimos (`alucinación` afirmativa) persisten en los casos de precio/catálogo donde corresponde.
 
 Artefactos: `eval/guarded-20260918/control-{a3,b3,a4,b4,a5,b5}.json`.
+
+## Addendum F9 (2026-09-21): falla_de_escalado ≠ alucinación
+
+Añadida REGLA F9 a `buildJudgePrompt` (`src/server/ai/prompts.ts`): separa (a) alucinación — afirmación textual de dato concreto inexistente del AGENTE, único camino a rojo — de (b) falla de escalado — mal manejo sin datos inventados (cierre seco, vueltas sin ofrecer humano), como máximo amarillo con debio_escalar/tono, JAMÁS rojo.
+
+Calibración (agente 14B + G1-G10, juez LongCat temp 0, TRUNCATE antes de cada corrida):
+
+| Iteración | Controles | Scores | Delta |
+|---|---|---|---|
+| F9 (v2.4) | A6 `run_q9jw43mxiycmu6iynrx3` / B6 `run_hpa6p2od00xhlakirwvm` | 91 / 95 | **4** ✅ PASS |
+
+Mejor delta histórico (antes: 18→9 con v2.3, sin cerrar). Sin rojos ni alucinaciones en ambas corridas; el residual solo alterna tono (amarillo/verde) en `comprador_decidido`/`pregunton_precios`. Artefactos: `eval/f9-judge/control-{a6,b6}.json`.
