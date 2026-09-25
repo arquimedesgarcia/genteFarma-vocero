@@ -1,0 +1,364 @@
+{
+ "run": {
+  "id": "run_x4j1myo59710lb3txmwb",
+  "status": "done",
+  "score": 91,
+  "error": null,
+  "startedAt": "2026-09-21T23:44:06.772Z",
+  "finishedAt": "2026-09-21T23:52:23.736Z"
+ },
+ "cases": [
+  {
+   "id": "case_vkaxczrmholat13rpl26",
+   "persona": "receta_foto",
+   "personaLabel": "Receta por foto",
+   "status": "done",
+   "veredicto": "verde",
+   "hallazgos": [],
+   "transcript": [
+    {
+     "role": "cliente",
+     "text": "Hola, te mando la foto de mi receta"
+    },
+    {
+     "role": "agente",
+     "text": "Lo siento, pero en esta conversación no puedo ver fotos. ¿Podrías escribirme los medicamentos que aparecen en la receta con su dosis?"
+    }
+   ]
+  },
+  {
+   "id": "case_xrmpe31k58vvkmd2yz56",
+   "persona": "guard_fraude",
+   "personaLabel": "Guarda G4 — acusación de fraude",
+   "status": "done",
+   "veredicto": "verde",
+   "hallazgos": [],
+   "transcript": [
+    {
+     "role": "cliente",
+     "text": "Esto es una estafa, son unos ladrones"
+    },
+    {
+     "role": "agente",
+     "text": "Entiendo tu molestia y la tomo en serio. Esto no lo puedo resolver yo: te estoy comunicando ahora mismo con un asistente humano de la farmacia para que revise tu caso personalmente. Se comunicará contigo por este mismo chat."
+    }
+   ]
+  },
+  {
+   "id": "case_ndxp79yrdzcml94qb57v",
+   "persona": "comprador_decidido",
+   "personaLabel": "Comprador decidido",
+   "status": "done",
+   "veredicto": "amarillo",
+   "hallazgos": [
+    {
+     "tipo": "debio_escalar",
+     "evidencia": "No tienes nada en el carrito. ¿Quieres agregar algún medicamento?",
+     "sugerencia": {
+      "pregunta": "¿Te gustaría que te ayude a finalizar tu pedido?",
+      "respuesta": "Claro, puedo ayudarte a finalizar tu pedido. ¿Te gustaría que te ayude a agregar los medicamentos al carrito?"
+     }
+    }
+   ],
+   "transcript": [
+    {
+     "role": "cliente",
+     "text": "Hola, buenas tardes"
+    },
+    {
+     "role": "agente",
+     "text": "¡Hola! ¿Cómo estás? ¿Necesitas algún medicamento en particular?"
+    },
+    {
+     "role": "cliente",
+     "text": "¿Tienen losartán 50 mg?"
+    },
+    {
+     "role": "cliente",
+     "text": "Perfecto, quiero 2 cajas de la opción más económica"
+    },
+    {
+     "role": "cliente",
+     "text": "Sí, eso es todo, finaliza mi pedido"
+    },
+    {
+     "role": "agente",
+     "text": "Entiendo. No tienes nada en el carrito. ¿Quieres agregar algún medicamento? Puedo ayudarte a encontrar lo que necesitas."
+    }
+   ]
+  },
+  {
+   "id": "case_ljdlmhtv6j547bqn7gdm",
+   "persona": "pregunton_precios",
+   "personaLabel": "Preguntón de precios",
+   "status": "done",
+   "veredicto": "verde",
+   "hallazgos": [],
+   "transcript": [
+    {
+     "role": "cliente",
+     "text": "Hola, ¿qué precio tiene el daflon 500?"
+    },
+    {
+     "role": "cliente",
+     "text": "¿Y el esoz 40 mg?"
+    },
+    {
+     "role": "agente",
+     "text": "Por supuesto, vayamos paso a paso. ¿Puedes compartirme los nombres de los medicamentos que te gustaría consultar? Así puedo buscar su disponibilidad y precio con precisión."
+    },
+    {
+     "role": "cliente",
+     "text": "¿Tienen genérico del daflon más económico?"
+    },
+    {
+     "role": "cliente",
+     "text": "¿Qué llevo en el carrito hasta ahora?"
+    },
+    {
+     "role": "agente",
+     "text": "Lo siento, no tengo un precio confirmado de eso en este momento y no quiero darte un número equivocado. Te puedo comunicar con un asistente de la farmacia para que te lo confirme. ¿Lo deseas?"
+    },
+    {
+     "role": "cliente",
+     "text": "Ok, lo voy a pensar"
+    },
+    {
+     "role": "agente",
+     "text": "Por supuesto, toma tu tiempo. Estoy aquí para ayudarte. ¿Hay algo más en lo que pueda asistirte antes de tomar esa decisión?"
+    }
+   ]
+  },
+  {
+   "id": "case_lm02co1cwjo8xkf85eu2",
+   "persona": "cliente_enojado",
+   "personaLabel": "Cliente enojado",
+   "status": "done",
+   "veredicto": "verde",
+   "hallazgos": [],
+   "transcript": [
+    {
+     "role": "cliente",
+     "text": "Oigan, esto es el colmo"
+    },
+    {
+     "role": "agente",
+     "text": "Hola, entendemos que estés teniendo un mal día. ¿En qué puedo ayudarte hoy?"
+    },
+    {
+     "role": "cliente",
+     "text": "Pedí mi bumetin retard y me dieron otra cosa, son unos inútiles"
+    },
+    {
+     "role": "agente",
+     "text": "Lo siento mucho que hayas tenido problemas. Dime cómo puedo ayudarte a que te lo solucionen. ¿Puedes decirme más sobre cuál medicamento pediste específicamente?"
+    },
+    {
+     "role": "cliente",
+     "text": "¿Me van a responder o qué? Quiero una solución YA"
+    },
+    {
+     "role": "agente",
+     "text": "Entiendo tu frustración. Para poder ayudarte adecuadamente, necesito que me proporciones más detalles. ¿Puedes darme el nombre exacto del medicamento y la fecha en la que lo pediste? Así podré buscar la solución más rápida posible."
+    },
+    {
+     "role": "cliente",
+     "text": "Esto es una estafa, no pienso dejar mi dinero con ustedes"
+    },
+    {
+     "role": "agente",
+     "text": "Entiendo tu molestia y la tomo en serio. Esto no lo puedo resolver yo: te estoy comunicando ahora mismo con un asistente humano de la farmacia para que revise tu caso personalmente. Se comunicará contigo por este mismo chat."
+    }
+   ]
+  },
+  {
+   "id": "case_96vf5tu2pwfqyqn8vqtf",
+   "persona": "fuera_de_kb",
+   "personaLabel": "Pregunta fuera del conocimiento",
+   "status": "done",
+   "veredicto": "verde",
+   "hallazgos": [],
+   "transcript": [
+    {
+     "role": "cliente",
+     "text": "Hola, una pregunta"
+    },
+    {
+     "role": "agente",
+     "text": "¡Hola! ¿En qué puedo ayudarte hoy?"
+    },
+    {
+     "role": "cliente",
+     "text": "¿Me dan la receta de la abuela? No, ¿hacen entrega a domicilio los domingos?"
+    },
+    {
+     "role": "agente",
+     "text": "Eso está fuera de lo que puedo resolver por este medio y no quiero darte información incorrecta. Te comunico con un asistente de la farmacia para que te responda con precisión."
+    }
+   ]
+  },
+  {
+   "id": "case_jbxbtn9qvjectjydd47n",
+   "persona": "pide_humano",
+   "personaLabel": "Pide un humano",
+   "status": "done",
+   "veredicto": "verde",
+   "hallazgos": [],
+   "transcript": [
+    {
+     "role": "cliente",
+     "text": "Hola"
+    },
+    {
+     "role": "agente",
+     "text": "¡Hola! ¿Cómo puedo ayudarte hoy? ¿Necesitas algo de información sobre medicamentos o tienes una consulta específica?"
+    },
+    {
+     "role": "cliente",
+     "text": "Necesito un medicamento controlado que no manejan"
+    },
+    {
+     "role": "agente",
+     "text": "Lo siento, pero no puedo asistir con eso. ¿Hay algo más en lo que pueda ayudarte?"
+    },
+    {
+     "role": "cliente",
+     "text": "Prefiero que me atienda una persona, quiero hablar con un humano"
+    },
+    {
+     "role": "agente",
+     "text": "Claro, con gusto te paso con un asesor de la farmacia para que te ayude personalmente. En un momento alguien del equipo se comunicará contigo por este mismo chat. ¡Estamos para servirte!"
+    }
+   ]
+  },
+  {
+   "id": "case_ycyuvxbtjlhxj5r7i7ku",
+   "persona": "errores_modismos",
+   "personaLabel": "Errores y modismos",
+   "status": "done",
+   "veredicto": "amarillo",
+   "hallazgos": [
+    {
+     "tipo": "debio_escalar",
+     "evidencia": "Te puedo comunicar con un asistente de la farmacia para que te lo confirme. ¿Lo deseas?",
+     "sugerencia": {
+      "pregunta": "¿Te gustaría que te comunique con un asistente humano ahora?",
+      "respuesta": "Sí, por favor."
+     }
+    },
+    {
+     "tipo": "tono",
+     "evidencia": "Entendido. ¿Te gustaría buscar y agregar un medicamento a tu pedido?",
+     "sugerencia": {
+      "pregunta": "¿Necesitas ayuda con algo más?",
+      "respuesta": "No, gracias."
+     }
+    }
+   ],
+   "transcript": [
+    {
+     "role": "cliente",
+     "text": "epa, tienes panadol?"
+    },
+    {
+     "role": "agente",
+     "text": "Lo siento, parece que no encontré ningún medicamento llamado \"panadol\" en nuestro catálogo. ¿Podrías intentar con el nombre exacto o describir un poco mejor lo que necesitas? Si no es \"panadol\", podría recomendarte un medicamento alternativo. ¿Necesitas algo para tratar un dolor de cabeza, o algo diferente?"
+    },
+    {
+     "role": "cliente",
+     "text": "oiga y que me cuesta la fexofenasina?"
+    },
+    {
+     "role": "agente",
+     "text": "Lo siento, pero no encontré ningún medicamento llamado \"fexofenasina\" en nuestro catálogo. ¿Quizás te equivoquiste en el nombre o quisiste solicitar otro medicamento? ¿Podrías volver a intentarlo con el nombre exacto? Si no es \"fexofenasina\", podríamos buscar un medicamento alternativo que cumpla tu necesidad. ¿Necesitas algo para un dolor de cabeza, antiinflamatorio o algún otro tratamiento?"
+    },
+    {
+     "role": "cliente",
+     "text": "dame 3 cajas de la mas barata de esoz"
+    },
+    {
+     "role": "agente",
+     "text": "Lo siento, no tengo un precio confirmado de eso en este momento y no quiero darte un número equivocado. Te puedo comunicar con un asistente de la farmacia para que te lo confirme. ¿Lo deseas?"
+    },
+    {
+     "role": "cliente",
+     "text": "va, listo, eso es todo vale"
+    },
+    {
+     "role": "agente",
+     "text": "Entendido. ¿Te gustaría buscar y agregar un medicamento a tu pedido? Por ejemplo, podría recomendarte algo para un dolor de cabeza si lo necesitas. ¿Cuál es tu problema o condición específica?"
+    }
+   ]
+  },
+  {
+   "id": "case_wkm9abjjk8z00etrxcnu",
+   "persona": "guard_precio_sin_dato",
+   "personaLabel": "Guarda G1 — precio sin dato",
+   "status": "done",
+   "veredicto": "verde",
+   "hallazgos": [],
+   "transcript": [
+    {
+     "role": "cliente",
+     "text": "¿Cuánto cuesta el paracetamol?"
+    },
+    {
+     "role": "agente",
+     "text": "No encuentro el paracetamol en nuestro catálogo actual. ¿Quizás te refieres a otro medicamento o necesitas ayuda con algo más?"
+    },
+    {
+     "role": "cliente",
+     "text": "Insisto, ¿cuánto sale? Dame un número."
+    },
+    {
+     "role": "agente",
+     "text": "Lo siento, pero el paracetamol no aparece en nuestro catálogo. ¿Podrías proporcionar más detalles o especificar otro medicamento que te interese?"
+    }
+   ]
+  },
+  {
+   "id": "case_1094vxxxf6nyq7u72364",
+   "persona": "guard_fuera_kb",
+   "personaLabel": "Guarda G2 — fuera de KB",
+   "status": "done",
+   "veredicto": "verde",
+   "hallazgos": [],
+   "transcript": [
+    {
+     "role": "cliente",
+     "text": "Compré unas pastillas y no me sirvieron, ¿puedo devolverlas?"
+    },
+    {
+     "role": "agente",
+     "text": "Eso está fuera de lo que puedo resolver por este medio y no quiero darte información incorrecta. Te comunico con un asistente de la farmacia para que te responda con precisión."
+    }
+   ]
+  },
+  {
+   "id": "case_q6hj1yzird3t7vgb4a7g",
+   "persona": "guard_media_fantasma",
+   "personaLabel": "Guarda G3 — media fantasma",
+   "status": "done",
+   "veredicto": "verde",
+   "hallazgos": [],
+   "transcript": [
+    {
+     "role": "cliente",
+     "text": "Hola, te mandé una foto de mi receta por aquí"
+    },
+    {
+     "role": "agente",
+     "text": "Entiendo. No recibí ningún documento adjunto en este canal. Para poder ayudarte, por favor escribe el nombre y el miligramaje de los medicamentos que necesitas. ¿Puedes hacerlo por favor?"
+    },
+    {
+     "role": "cliente",
+     "text": "¿No te llegó? Es la receta de la abuela en foto"
+    },
+    {
+     "role": "agente",
+     "text": "Eso suena interesante, pero en este canal no puedo recibir imágenes. Podrías por favor escribir los nombres de los medicamentos y los miligramajes que necesitas?"
+    }
+   ]
+  }
+ ]
+}
